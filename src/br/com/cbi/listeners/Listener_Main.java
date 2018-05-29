@@ -5,9 +5,12 @@
  */
 package br.com.cbi.listeners;
 
+import br.com.cbi.dal.EntityManagerHelper;
+import br.com.cbi.entities.Atendimento;
 import br.com.cbi.main.Form_Main;
 import br.com.cbi.tablemodel.TableModel_Jornada;
 import br.com.cbi.tablemodel.TableModel_Pecas;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
 
@@ -20,6 +23,8 @@ public final class Listener_Main extends ListenerDefaultAdapter<Form_Main> {
     private static final long serialVersionUID = 8658902882695357107L;
     private TableModel_Pecas modelPecas;
     private TableModel_Jornada modelJornada;
+    private EntityManagerHelper<Atendimento> emh;
+    private Atendimento atendimento;
 
     public Listener_Main(Form_Main form) {
         super(form);
@@ -28,6 +33,8 @@ public final class Listener_Main extends ListenerDefaultAdapter<Form_Main> {
 
     @Override
     protected void initComponents() {
+        atendimento = new Atendimento();
+        emh = new EntityManagerHelper();
         attachListener();
         addModel();
     }
@@ -41,6 +48,12 @@ public final class Listener_Main extends ListenerDefaultAdapter<Form_Main> {
     @Override
     public void actionPerformed(ActionEvent event) {
         super.actionPerformed(event);
+        switch (event.getActionCommand()) {
+            case "salvar":
+                form.salvar(atendimento, emh);
+                break;
+        }
+        form.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     @Override
@@ -53,39 +66,7 @@ public final class Listener_Main extends ListenerDefaultAdapter<Form_Main> {
 
     @Override
     protected void carregarListas() {
-
-    }
-
-    @Override
-    protected void salvar() {
-        /*form.getListPaineis().stream().map(JPanel::getComponents).forEach(comp -> {
-        form.enableDisableComponentJFrame(ManipulaFrames.SALVAR, comp);
-        });
-        form.operacaoEnableOrder(ManipulaFrames.SALVAR, form.getMenuBarCbiDefault().getListMenuItens());*/
-    }
-
-    @Override
-    protected void alterar() {
-        /*form.getListPaineis().stream().map(JPanel::getComponents).forEach(comp -> {
-        form.enableDisableComponentJFrame(ManipulaFrames.ALTERAR, comp);
-        });
-        form.operacaoEnableOrder(ManipulaFrames.ALTERAR, form.getMenuBarCbiDefault().getListMenuItens());*/
-    }
-
-    @Override
-    protected void editar() {
-        /*form.getListPaineis().stream().map(JPanel::getComponents).forEach(comp -> {
-        form.enableDisableComponentJFrame(ManipulaFrames.EDITAR, comp);
-        });
-        form.operacaoEnableOrder(ManipulaFrames.EDITAR, form.getMenuBarCbiDefault().getListMenuItens());*/
-    }
-
-    @Override
-    protected void deletar() {
-        /*form.getListPaineis().stream().map(JPanel::getComponents).forEach(comp -> {
-        form.enableDisableComponentJFrame(ManipulaFrames.DELETAR, comp);
-        form.operacaoEnableOrder(ManipulaFrames.DELETAR, form.getMenuBarCbiDefault().getListMenuItens());
-        });*/
+        
     }
 
 }

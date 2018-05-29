@@ -30,7 +30,7 @@ public class EntityManagerHelper<T> {
     public EntityManagerHelper() {
     }
 
-    public void getOperation(int operation_type, Object object, String persistence_unit) {
+    public boolean getOperation(int operation_type, Object object, String persistence_unit) {
         EntityManager session = getSession(persistence_unit);
         try {
             session.getTransaction().begin();
@@ -39,26 +39,27 @@ public class EntityManagerHelper<T> {
                     LOG.info("Salvando registro no banco de dados");
                     session.persist(object);
                     session.getTransaction().commit();
-                    JOptionPane.showMessageDialog(null, "Registro salvo com sucesso", "Registro Salvo", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "Registro salvo com sucesso", "Registro Salvo", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case UPDATE:
                     LOG.info("Atualizando registro no banco de dados");
                     session.merge(object);
                     session.getTransaction().commit();
-                    JOptionPane.showMessageDialog(null, "Registro alterado com sucesso", "Registro Alterado", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "Registro alterado com sucesso", "Registro Alterado", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case DELETE:
                     LOG.info("Deletando registro no banco de dados");
                     session.remove(object);
                     session.getTransaction().commit();
-                    JOptionPane.showMessageDialog(null, "Registro deletado com sucesso", "Registro Deletado", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "Registro deletado com sucesso", "Registro Deletado", JOptionPane.INFORMATION_MESSAGE);
                     break;
             }
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        } finally {
-            this.closeSession(persistence_unit);
+            closeSession(persistence_unit);
+            return false;
         }
     }
 

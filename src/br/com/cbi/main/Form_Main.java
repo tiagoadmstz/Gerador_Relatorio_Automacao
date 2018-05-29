@@ -15,16 +15,18 @@ import br.com.cbi.util.Utilidades;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
  *
  * @author Tiago
  */
-public final class Form_Main extends ManipulaFrames<Atendimento> {
+public final class Form_Main extends ManipulaFrames {
 
     private static final long serialVersionUID = -7054545364563752986L;
     private final Listener_Main listener;
@@ -65,6 +67,121 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
         return txtCliente;
     }
 
+    @MapFrameField(referencedField = "nomeAutorizada", typeReference = String.class)
+    public JComboBox<String> getCbAutorizada() {
+        return cbAutorizada;
+    }
+
+    @MapFrameField(referencedField = "condicoesFuncionamento", typeReference = String.class)
+    public JComboBox<String> getCbCondicaoFuncionamento() {
+        return cbCondicaoFuncionamento;
+    }
+
+    @MapFrameField(referencedField = "nomeTecnico", typeReference = String.class)
+    public JComboBox<String> getCbTecnico() {
+        return cbTecnico;
+    }
+
+    @MapFrameField(referencedField = "tipoAtendimento", typeReference = String.class)
+    public JComboBox<String> getCbTipoAtendimento() {
+        return cbTipoAtendimento;
+    }
+
+    @MapFrameField(referencedField = "defeitoReclamado", typeReference = String.class)
+    public JTextArea getTaDefeitoReclamado() {
+        return taDefeitoReclamado;
+    }
+
+    @MapFrameField(referencedField = "bairro", typeReference = String.class)
+    public JTextField getTxtBairro() {
+        return txtBairro;
+    }
+
+    @MapFrameField(referencedField = "celular", typeReference = String.class)
+    public JTextField getTxtCelular() {
+        return txtCelular;
+    }
+
+    @MapFrameField(referencedField = "cidade", typeReference = String.class)
+    public JTextField getTxtCidade() {
+        return txtCidade;
+    }
+
+    //@MapFrameField(referencedField = "dataAtendimento", typeReference = LocalDateTime.class)
+    public JTextField getTxtData() {
+        return txtData;
+    }
+
+    @MapFrameField(referencedField = "email", typeReference = String.class)
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
+
+    @MapFrameField(referencedField = "endereco", typeReference = String.class)
+    public JTextField getTxtEndereco() {
+        return txtEndereco;
+    }
+
+    @MapFrameField(referencedField = "equipamento", typeReference = String.class)
+    public JTextField getTxtEquipamento() {
+        return txtEquipamento;
+    }
+
+    @MapFrameField(referencedField = "estado", typeReference = String.class)
+    public JTextField getTxtEstado() {
+        return txtEstado;
+    }
+
+    //@MapFrameField(referencedField = "id", typeReference = Long.class)
+    public JTextField getTxtId() {
+        return txtId;
+    }
+
+    @MapFrameField(referencedField = "kmRodado", typeReference = String.class)
+    public JTextField getTxtKmRodado() {
+        return txtKmRodado;
+    }
+
+    @MapFrameField(referencedField = "localAtendimento", typeReference = String.class)
+    public JTextField getTxtLocal() {
+        return txtLocal;
+    }
+
+    @MapFrameField(referencedField = "nomeCliente", typeReference = String.class)
+    public JTextField getTxtNomeCliente() {
+        return txtNomeCliente;
+    }
+
+    @MapFrameField(referencedField = "numero", typeReference = String.class)
+    public JTextField getTxtNumero() {
+        return txtNumero;
+    }
+
+    @MapFrameField(referencedField = "numeroRelatorio", typeReference = String.class)
+    public JTextField getTxtNumeroRelaorio() {
+        return txtNumeroRelaorio;
+    }
+
+    @MapFrameField(referencedField = "numeroPW", typeReference = String.class)
+    public JTextField getTxtPW() {
+        return txtPW;
+    }
+
+    @MapFrameField(referencedField = "produto", typeReference = String.class)
+    public JTextField getTxtProduto() {
+        return txtProduto;
+    }
+
+    @MapFrameField(referencedField = "numeroSerie", typeReference = String.class)
+    public JTextField getTxtSerie() {
+        return txtSerie;
+    }
+
+    @MapFrameField(referencedField = "telefone", typeReference = String.class)
+    public JTextField getTxtTelefone() {
+        return txtTelefone;
+    }
+
     public JTable getTbJornada() {
         return tbJornada;
     }
@@ -84,52 +201,52 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
 
         painel_Guias = new javax.swing.JTabbedPane();
         painel_Atendimento = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
+        lbId = new javax.swing.JLabel();
+        lbRelatorio = new javax.swing.JLabel();
+        lbData = new javax.swing.JLabel();
+        lbNomeAutorizada = new javax.swing.JLabel();
+        lbClienteFinal = new javax.swing.JLabel();
+        lbEndereco = new javax.swing.JLabel();
+        lbN = new javax.swing.JLabel();
+        lbBairro = new javax.swing.JLabel();
+        lbCidade = new javax.swing.JLabel();
+        lbEstado = new javax.swing.JLabel();
+        lbEmail = new javax.swing.JLabel();
+        lbTelefone = new javax.swing.JLabel();
+        lbCelular = new javax.swing.JLabel();
+        lbProduto = new javax.swing.JLabel();
+        lbEquipamento = new javax.swing.JLabel();
+        lbPw = new javax.swing.JLabel();
+        lbNSerie = new javax.swing.JLabel();
+        lbLocal = new javax.swing.JLabel();
+        lbKmRodado = new javax.swing.JLabel();
+        lbNomeCliente = new javax.swing.JLabel();
+        lbTipoAtendimento = new javax.swing.JLabel();
+        lbNomeTecnico = new javax.swing.JLabel();
+        lbCondFuncionamento = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
         txtNumeroRelaorio = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         txtData = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         cbAutorizada = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
         txtCliente = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         txtEndereco = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         txtNumero = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         txtBairro = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         txtCidade = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         txtEstado = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
         txtTelefone = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
         txtCelular = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
         txtProduto = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
         txtEquipamento = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
         txtPW = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
         txtSerie = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel16 = new javax.swing.JLabel();
         txtLocal = new javax.swing.JTextField();
-        jLabel23 = new javax.swing.JLabel();
         txtKmRodado = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
         txtNomeCliente = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
         cbTipoAtendimento = new javax.swing.JComboBox<>();
-        jLabel18 = new javax.swing.JLabel();
         cbTecnico = new javax.swing.JComboBox<>();
-        jLabel20 = new javax.swing.JLabel();
         cbCondicaoFuncionamento = new javax.swing.JComboBox<>();
         buttonsPanel = new javax.swing.JPanel();
         btNovo = new javax.swing.JButton();
@@ -158,99 +275,99 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
         painel_Guias.setToolTipText("");
         painel_Guias.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel21.setText("ID");
+        lbId.setText("ID");
+
+        lbRelatorio.setText("Relatório Nº");
+
+        lbData.setText("Data");
+
+        lbNomeAutorizada.setText("Nome Autorizada");
+
+        lbClienteFinal.setText("Cliente Final");
+
+        lbEndereco.setText("Endereço");
+
+        lbN.setText("Nº");
+
+        lbBairro.setText("Bairro");
+
+        lbCidade.setText("Cidade");
+
+        lbEstado.setText("Estado");
+
+        lbEmail.setText("E-mail");
+
+        lbTelefone.setText("Telefone");
+
+        lbCelular.setText("Celular");
+
+        lbProduto.setText("Produto");
+
+        lbEquipamento.setText("Equipamento");
+
+        lbPw.setText("Nº PW");
+
+        lbNSerie.setText("Nº Série");
+
+        lbLocal.setText("Local");
+
+        lbKmRodado.setText("Km Rodado");
+
+        lbNomeCliente.setText("Nome do Cliente");
+
+        lbTipoAtendimento.setText("Tipo de Atendimento");
+
+        lbNomeTecnico.setText("Nome do Técnico");
+
+        lbCondFuncionamento.setText("Cond. de Funcionamento");
 
         txtId.setBackground(new java.awt.Color(204, 255, 255));
         txtId.setEnabled(false);
 
-        jLabel22.setText("Relatório Nº");
-
         txtNumeroRelaorio.setEnabled(false);
 
-        jLabel1.setText("Data");
-
         txtData.setEnabled(false);
-
-        jLabel2.setText("Nome Autorizada");
 
         cbAutorizada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TESE COMERCIAL ELÉTRICA LTDA -EPP", "TESE RIBEIRÃO PRETO MOTORES ELÉTRICOS LTDA" }));
         cbAutorizada.setEnabled(false);
 
-        jLabel3.setText("Cliente Final");
-
         txtCliente.setEnabled(false);
-
-        jLabel4.setText("Endereço");
 
         txtEndereco.setEnabled(false);
 
-        jLabel5.setText("Nº");
-
         txtNumero.setEnabled(false);
-
-        jLabel6.setText("Bairro");
 
         txtBairro.setEnabled(false);
 
-        jLabel7.setText("Cidade");
-
         txtCidade.setEnabled(false);
-
-        jLabel8.setText("Estado");
 
         txtEstado.setEnabled(false);
 
-        jLabel9.setText("E-mail");
-
         txtEmail.setEnabled(false);
-
-        jLabel10.setText("Telefone");
 
         txtTelefone.setEnabled(false);
 
-        jLabel11.setText("Celular");
-
         txtCelular.setEnabled(false);
-
-        jLabel12.setText("Produto");
 
         txtProduto.setEnabled(false);
 
-        jLabel13.setText("Equipamento");
-
         txtEquipamento.setEnabled(false);
-
-        jLabel14.setText("Nº PW");
 
         txtPW.setEnabled(false);
 
-        jLabel15.setText("Nº Série");
-
         txtSerie.setEnabled(false);
-
-        jLabel16.setText("Local");
 
         txtLocal.setEnabled(false);
 
-        jLabel23.setText("Km Rodado");
-
         txtKmRodado.setEnabled(false);
 
-        jLabel17.setText("Nome do Cliente");
-
         txtNomeCliente.setEnabled(false);
-
-        jLabel19.setText("Tipo de Atendimento");
 
         cbTipoAtendimento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asstec" }));
         cbTipoAtendimento.setEnabled(false);
 
-        jLabel18.setText("Nome do Técnico");
-
         cbTecnico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fernando Henrique Ferreira" }));
         cbTecnico.setEnabled(false);
-
-        jLabel20.setText("Cond. de Funcionamento");
 
         cbCondicaoFuncionamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sem Condições", "Precário", "Com Pendências", "Pleno" }));
         cbCondicaoFuncionamento.setSelectedIndex(3);
@@ -324,13 +441,13 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbClienteFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbBairro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbProduto)
+                            .addComponent(lbPw, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCliente)
@@ -342,11 +459,11 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
                                             .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                                                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addComponent(lbTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                             .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                                                 .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(lbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtTelefone)
@@ -355,14 +472,14 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
                                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lbEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lbN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                                             .addComponent(txtEstado)))
                                     .addGroup(painel_AtendimentoLayout.createSequentialGroup()
-                                        .addComponent(jLabel11)
+                                        .addComponent(lbCelular)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtCelular))))
                             .addGroup(painel_AtendimentoLayout.createSequentialGroup()
@@ -371,8 +488,8 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
                                     .addComponent(txtProduto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lbEquipamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbNSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtEquipamento)
@@ -380,14 +497,14 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
                             .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                                 .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
+                                .addComponent(lbNomeAutorizada)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cbAutorizada, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbNomeTecnico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbNomeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtLocal, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
@@ -395,9 +512,9 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
                             .addComponent(cbTecnico, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbCondFuncionamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbKmRodado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbTipoAtendimento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbCondicaoFuncionamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -405,8 +522,8 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
                             .addComponent(txtKmRodado)))
                     .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNumeroRelaorio, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -420,74 +537,74 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
                 .addGap(9, 9, 9)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21))
+                    .addComponent(lbId))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
+                    .addComponent(lbRelatorio)
                     .addComponent(txtNumeroRelaorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lbData)
                     .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
+                    .addComponent(lbNomeAutorizada)
                     .addComponent(cbAutorizada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lbClienteFinal)
                     .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
+                    .addComponent(lbEndereco)
+                    .addComponent(lbN)
                     .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
+                    .addComponent(lbBairro)
+                    .addComponent(lbCidade)
                     .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
+                    .addComponent(lbEstado)
                     .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
+                    .addComponent(lbEmail)
+                    .addComponent(lbTelefone)
                     .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11)
+                    .addComponent(lbCelular)
                     .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13)
+                    .addComponent(lbProduto)
+                    .addComponent(lbEquipamento)
                     .addComponent(txtEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
+                    .addComponent(lbPw)
                     .addComponent(txtPW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15)
+                    .addComponent(lbNSerie)
                     .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
+                    .addComponent(lbLocal)
                     .addComponent(txtLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel23)
+                    .addComponent(lbKmRodado)
                     .addComponent(txtKmRodado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
+                    .addComponent(lbNomeCliente)
                     .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19)
+                    .addComponent(lbTipoAtendimento)
                     .addComponent(cbTipoAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
+                    .addComponent(lbNomeTecnico)
                     .addComponent(cbTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20)
+                    .addComponent(lbCondFuncionamento)
                     .addComponent(cbCondicaoFuncionamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -638,11 +755,25 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
-        getObject(atendimento);
-        System.out.println(atendimento.getClienteFinal());
-        atendimento.setClienteFinal("está funcionando");
-        setObject(atendimento);
-        System.out.println(atendimento.getClienteFinal());
+        txtNumeroRelaorio.setText("01/STZ");
+        txtData.setText("01/10/2017");
+        txtCliente.setText("TIAGO DANIEL TEIXEIRA");
+        txtEndereco.setText("RUA ANTONIO TETEU FURLANETO");
+        txtNumero.setText("2109");
+        txtBairro.setText("JD. PORTO SEGURO");
+        txtCidade.setText("SERTÃOZINHO");
+        txtEstado.setText("SÃO PAULO");
+        txtEmail.setText("tiagoadmstz@yahoo.com.br");
+        txtTelefone.setText("(16) 99295-2244");
+        txtCelular.setText("(16) 99295-2244");
+        txtProduto.setText("INVERSOR");
+        txtEquipamento.setText("CFW090180T3848PSZ");
+        txtPW.setText("123456789");
+        txtSerie.setText("123456789");
+        txtLocal.setText("US. BELA VISTA");
+        txtKmRodado.setText("234");
+        txtNomeCliente.setText("TIAGO");
+        taDefeitoReclamado.setText("TESTE");
     }//GEN-LAST:event_btNovoActionPerformed
 
     /**
@@ -697,31 +828,31 @@ public final class Form_Main extends ManipulaFrames<Atendimento> {
     private javax.swing.JComboBox<String> cbTecnico;
     private javax.swing.JComboBox<String> cbTipoAtendimento;
     private javax.swing.JScrollPane defeitoScrollPane;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JScrollPane jornadaScrollPane;
+    private javax.swing.JLabel lbBairro;
+    private javax.swing.JLabel lbCelular;
+    private javax.swing.JLabel lbCidade;
+    private javax.swing.JLabel lbClienteFinal;
+    private javax.swing.JLabel lbCondFuncionamento;
+    private javax.swing.JLabel lbData;
+    private javax.swing.JLabel lbEmail;
+    private javax.swing.JLabel lbEndereco;
+    private javax.swing.JLabel lbEquipamento;
+    private javax.swing.JLabel lbEstado;
+    private javax.swing.JLabel lbId;
+    private javax.swing.JLabel lbKmRodado;
+    private javax.swing.JLabel lbLocal;
+    private javax.swing.JLabel lbN;
+    private javax.swing.JLabel lbNSerie;
+    private javax.swing.JLabel lbNomeAutorizada;
+    private javax.swing.JLabel lbNomeCliente;
+    private javax.swing.JLabel lbNomeTecnico;
+    private javax.swing.JLabel lbProduto;
+    private javax.swing.JLabel lbPw;
+    private javax.swing.JLabel lbRelatorio;
+    private javax.swing.JLabel lbTelefone;
+    private javax.swing.JLabel lbTipoAtendimento;
     private br.com.cbi.beans.MenuBarCbiDefault menuBarCbiDefault;
     private javax.swing.JPanel painel_Atendimento;
     private javax.swing.JPanel painel_Defeito;

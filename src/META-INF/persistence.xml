@@ -2,6 +2,13 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="DERBYDB_PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>br.com.cbi.entities.Atendimento</class>
+    <class>br.com.cbi.entities.Jornada</class>
+    <class>br.com.cbi.entities.Peca</class>
+    <class>br.com.cbi.entities.Tecnico</class>
+    <class>br.com.cbi.converters.BigDecimalConverter</class>
+    <class>br.com.cbi.converters.LocalDateTimeConverter</class>
+    
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/GRA_PROD"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

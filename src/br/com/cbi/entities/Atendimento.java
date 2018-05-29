@@ -66,11 +66,11 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
     private String kmRodado;
     private String defeitoReclamado;
     private String localAtendimento;
+    private String tipoAtendimento;
     private LocalDateTime dataAtendimento;
     private String nomeCliente;
     private String nomeTecnico;
     private String condicoesFuncionamento;
-    private String conteudoRelatorio;
     private List<Jornada> jornada;
     private List<Peca> pecas;
 
@@ -249,6 +249,15 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
         this.localAtendimento = localAtendimento;
     }
 
+    @Column(name = "TIPO_ATENDIMENTO", nullable = true, length = 100)
+    public String getTipoAtendimento() {
+        return tipoAtendimento;
+    }
+
+    public void setTipoAtendimento(String tipoAtendimento) {
+        this.tipoAtendimento = tipoAtendimento;
+    }
+
     @Convert(converter = LocalDateTimeConverter.class)
     @Column(name = "DATA_ATENDIMENTO", nullable = true)
     public LocalDateTime getDataAtendimento() {
@@ -286,16 +295,7 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
         this.condicoesFuncionamento = condicoesFuncionamento;
     }
 
-    @Column(name = "CONTEUDO_RELATORIO")
-    public String getConteudoRelatorio() {
-        return conteudoRelatorio;
-    }
-
-    public void setConteudoRelatorio(String conteudoRelatorio) {
-        this.conteudoRelatorio = conteudoRelatorio;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "ATENDIMENTO")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Jornada.class)
     public List<Jornada> getJornada() {
         return jornada;
     }
@@ -304,7 +304,7 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
         this.jornada = jornada;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "ATENDIMENTO")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Peca.class)
     public List<Peca> getPecas() {
         return pecas;
     }
@@ -339,7 +339,6 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
         hash = 11 * hash + Objects.hashCode(this.nomeCliente);
         hash = 11 * hash + Objects.hashCode(this.nomeTecnico);
         hash = 11 * hash + Objects.hashCode(this.condicoesFuncionamento);
-        hash = 11 * hash + Objects.hashCode(this.conteudoRelatorio);
         hash = 11 * hash + Objects.hashCode(this.jornada);
         hash = 11 * hash + Objects.hashCode(this.pecas);
         return hash;
@@ -420,9 +419,6 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
         if (!Objects.equals(this.condicoesFuncionamento, other.condicoesFuncionamento)) {
             return false;
         }
-        if (!Objects.equals(this.conteudoRelatorio, other.conteudoRelatorio)) {
-            return false;
-        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -440,7 +436,7 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
 
     @Override
     public String toString() {
-        return "Atendimento{" + "id=" + id + ", numeroRelatorio=" + numeroRelatorio + ", nomeAutorizada=" + nomeAutorizada + ", clienteFinal=" + clienteFinal + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + ", email=" + email + ", telefone=" + telefone + ", celular=" + celular + ", produto=" + produto + ", numeroPW=" + numeroPW + ", equipamento=" + equipamento + ", numeroSerie=" + numeroSerie + ", kmRodado=" + kmRodado + ", defeitoReclamado=" + defeitoReclamado + ", localAtendimento=" + localAtendimento + ", dataAtendimento=" + dataAtendimento + ", nomeCliente=" + nomeCliente + ", nomeTecnico=" + nomeTecnico + ", condicoesFuncionamento=" + condicoesFuncionamento + ", conteudoRelatorio=" + conteudoRelatorio + ", jornada=" + jornada + ", pecas=" + pecas + '}';
+        return "Atendimento{" + "id=" + id + ", numeroRelatorio=" + numeroRelatorio + ", nomeAutorizada=" + nomeAutorizada + ", clienteFinal=" + clienteFinal + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + ", email=" + email + ", telefone=" + telefone + ", celular=" + celular + ", produto=" + produto + ", numeroPW=" + numeroPW + ", equipamento=" + equipamento + ", numeroSerie=" + numeroSerie + ", kmRodado=" + kmRodado + ", defeitoReclamado=" + defeitoReclamado + ", localAtendimento=" + localAtendimento + ", dataAtendimento=" + dataAtendimento + ", nomeCliente=" + nomeCliente + ", nomeTecnico=" + nomeTecnico + ", condicoesFuncionamento=" + condicoesFuncionamento + ", jornada=" + jornada + ", pecas=" + pecas + '}';
     }
 
 }
