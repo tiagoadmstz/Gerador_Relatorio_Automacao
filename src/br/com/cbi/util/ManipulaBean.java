@@ -7,30 +7,23 @@ package br.com.cbi.util;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  *
- * @author Tiago
- * @param <T>
+ * @author tiago.teixeira
  */
 public abstract class ManipulaBean<T> implements Serializable {
 
-    private static final long serialVersionUID = 3404889011617196182L;
+    private static final long serialVersionUID = 5442956909521649571L;
 
     public void clear() {
         try {
-            List<Field> fields = Arrays.asList(getClass().getDeclaredFields());
-            fields.stream().forEach(f -> {
-                f.setAccessible(true);
-                if (!f.getName().equals("serialVersionUID")) {
-                    try {
-                        f.set(this, null);
-                    } catch (Exception ex) {
-                    }
+            for (Field field : getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                if (!field.getName().equals("serialVersionUID")) {
+                    field.set(this, null);
                 }
-            });
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,16 +31,10 @@ public abstract class ManipulaBean<T> implements Serializable {
 
     public void copiar(T object) {
         try {
-            Field[] f1 = object.getClass().getDeclaredFields();
-            Field[] f2 = getClass().getDeclaredFields();
-            for (int i = 0; i < f1.length; i++) {
-                f1[i].setAccessible(true);
-                f2[i].setAccessible(true);
-                if (!f1[i].getName().equals("serialVersionUID")) {
-                    try {
-                        f2[i].set(this, f1[i].get(object));
-                    } catch (Exception ex) {
-                    }
+            for (Field field : getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                if (!field.getName().equals("serialVersionUID")) {
+                    field.set(this, field.get(object));
                 }
             }
         } catch (Exception e) {
@@ -57,23 +44,20 @@ public abstract class ManipulaBean<T> implements Serializable {
 
     public T clonar() {
         try {
-            Field[] f1 = getClass().getDeclaredFields();
-            Object ob = getClass().getConstructor().newInstance();
-            Field[] f2 = ob.getClass().getDeclaredFields();
-            for (int i = 0; i < f1.length; i++) {
-                f1[i].setAccessible(true);
-                f2[i].setAccessible(true);
-                if (!f1[i].getName().equals("serialVersionUID")) {
-                    try {
-                        f2[i].set(ob, f1[i].get(this));
-                    } catch (Exception ex) {
-                    }
+            T object = (T) getClass().getConstructor().newInstance();
+            for(Field field : getClass().getDeclaredFields()){
+                field.setAccessible(true);
+                if (!field.getName().equals("serialVersionUID")) {
+                    Field f = object.getClass().getDeclaredField(field.getName());
+                    f.setAccessible(true);
+                    f.set(object, field.get(this));
                 }
             }
-            return (T) ob;
+            return object;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
+
 }

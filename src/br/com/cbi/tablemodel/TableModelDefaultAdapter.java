@@ -19,7 +19,7 @@ import javax.swing.table.AbstractTableModel;
 public class TableModelDefaultAdapter<T> extends AbstractTableModel {
 
     private static final long serialVersionUID = 143910086997416022L;
-    protected String[] columnNames;
+    private String[] columnNames;
     protected List<T> lista;
     protected int selectedRow = -1;
 
@@ -67,11 +67,14 @@ public class TableModelDefaultAdapter<T> extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return lista.size();
+        return lista != null ? lista.size() : 0;
     }
 
     public void setLista(List<T> lista) {
-        this.lista = lista;
+        if(lista != null){
+            this.lista = lista;
+        }
+        fireTableDataChanged();
     }
 
     public void addObject(T object) {
@@ -87,7 +90,7 @@ public class TableModelDefaultAdapter<T> extends AbstractTableModel {
     }
 
     public T getObject(int rowIndex) {
-        return lista.get(rowIndex);
+        return rowIndex != -1 ? lista.get(rowIndex) : null;
     }
 
     public void deletarLista() {
@@ -96,7 +99,9 @@ public class TableModelDefaultAdapter<T> extends AbstractTableModel {
     }
 
     public void addLista(List<T> lista) {
-        this.lista.addAll(lista);
+        if(lista != null){
+            this.lista.addAll(lista);
+        }
         fireTableDataChanged();
     }
 

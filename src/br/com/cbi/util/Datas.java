@@ -9,7 +9,10 @@ import java.math.BigDecimal;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.MonthDay;
 import java.time.Year;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -161,16 +164,12 @@ public class Datas {
 
                 if (strData.length != 3) {
                     if (strData.length == 2) {
-                        temp = dinamicDate(Integer.parseInt(strData[0]),
-                                Integer.parseInt(strData[1]),
-                                0);
+                        temp = dinamicDate(strData[0], strData[1], "0");
                     } else {
                         temp = formato.format(x);
                     }
                 } else {
-                    temp = dinamicDate(Integer.parseInt(strData[0]),
-                            Integer.parseInt(strData[1]),
-                            !"".equals(strData[2]) ? Integer.parseInt(strData[2]) : 0);
+                    temp = dinamicDate(strData[0], strData[1], !"".equals(strData[2]) ? strData[2] : "0");
                 }
             } catch (Exception excep) {
                 temp = formato.format(x);
@@ -210,40 +209,61 @@ public class Datas {
         return dt;
     }
 
-    public static String dinamicDate(int dia, int mes, int ano) {
+    public static String dinamicDate(String dia, String mes, String ano) {
+        return verificarDia(dia) + "/" + verificarMes(mes) + "/" + verificarAno(ano);
+    }
 
-        String temp = "";
-        long anoX = Long.parseLong(Year.now().toString());
-        String anoY = ano != 0 ? Integer.toString(ano) : Year.now().toString();
-
-        //trata o dia
-        if (dia > 0 && dia < 31) {
-            temp = dia < 10 ? temp + "0" + dia + "/" : temp + dia + "/";
-        } else {
-            temp = temp + "31/";
+    public static String verificarDia(String dia) {
+        try {
+            String result = "";
+            int dia_int = Integer.parseInt(dia);
+            if (dia_int > 0 && dia_int < 31) {
+                result = dia_int < 10 ? result + "0" + dia_int : result + dia_int;
+            } else {
+                result = result + "31";
+            }
+            return result;
+        } catch (Exception ex) {
+            return MonthDay.now().format(DateTimeFormatter.ofPattern("dd"));
         }
+    }
 
-        //trata o m�s
-        if (mes > 0 && mes < 13) {
-            temp = mes < 10 ? temp + "0" + mes + "/" : temp + mes + "/";
-        } else {
-            temp = temp + "12/";
+    public static String verificarMes(String mes) {
+        try {
+            String result = "";
+            int mes_int = Integer.parseInt(mes);
+            if (mes_int > 0 && mes_int < 13) {
+                result = mes_int < 10 ? result + "0" + mes_int : result + mes_int;
+            } else {
+                result = result + "12";
+            }
+            return result;
+        } catch (Exception ex) {
+            return YearMonth.now().format(DateTimeFormatter.ofPattern("MM"));
         }
+    }
 
-        long i = anoX - ano;
+    public static String verificarAno(String ano) {
+        try {
+            String result = "";
+            int ano_int = Integer.parseInt(ano);
+            long ano_atual = Long.parseLong(Year.now().toString());
+            String ano_user = ano_int != 0 ? Integer.toString(ano_int) : Year.now().toString();
+            long diferenca_atual_user = ano_atual - ano_int;
 
-        //trata o ano
-        if (anoY.length() > 0 && anoY.length() == 2) {
-            temp = i >= 2000 ? temp + "20" + anoY : temp + "19" + anoY;
-        } else if (anoY.length() > 0 && anoY.length() == 1) {
-            temp = i >= 2000 ? temp + "200" + anoY : temp + "190" + anoY;
-        } else if (anoY.length() == 3 || anoY.length() >= 5) {
-            temp = temp + Year.now().toString();
-        } else {
-            temp = temp + anoY;
+            if (ano_user.length() > 0 && ano_user.length() == 2) {
+                result = diferenca_atual_user >= 2000 ? result + "20" + ano_user : result + "19" + ano_user;
+            } else if (ano_user.length() > 0 && ano_user.length() == 1) {
+                result = diferenca_atual_user >= 2000 ? result + "200" + ano_user : result + "190" + ano_user;
+            } else if (ano_user.length() == 3 || ano_user.length() >= 5) {
+                result = result + Year.now().toString();
+            } else {
+                result = result + ano_user;
+            }
+            return result;
+        } catch (Exception ex) {
+            return Year.now().toString();
         }
-
-        return temp;
     }
 
 }

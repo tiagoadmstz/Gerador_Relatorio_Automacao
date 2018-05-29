@@ -7,9 +7,9 @@ package br.com.cbi.dal;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -18,7 +18,7 @@ import javax.persistence.Persistence;
  */
 public class EntityManagerFactoryService {
 
-    private static final Logger LOG = Logger.getLogger(EntityManagerFactoryService.class.getName());
+    private static final Logger LOG = Logger.getLogger(EntityManagerFactoryService.class);
     private static final Map<String, EntityManagerFactory> factories = new HashMap<String, EntityManagerFactory>();
     private static final Map<String, String> properties = new HashMap<String, String>();
 

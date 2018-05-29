@@ -9,74 +9,79 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 
 /**
  *
  * @author Tiago D. Teixeira
  */
-public class EntityManagerHelper<T> {
+public class EntityManagerHelper {
 
     private final Map<String, ThreadLocal<EntityManager>> sessions = new HashMap<>();
-    private static final Logger LOG = Logger.getLogger(EntityManagerHelper.class.getName());
+    private static final Logger LOG = Logger.getLogger(EntityManagerHelper.class);
     private static final Map<String, String> propMap = new HashMap();
-    public static final int SAVE = 0, UPDATE = 1, DELETE = 2;
-    public static final String DERBYDB_PU = "DERBYDB_PU", ORACLE11G_PU = "ORACLE11G_PU";
 
     public EntityManagerHelper() {
     }
 
-    public boolean getOperation(int operation_type, Object object, String persistence_unit) {
+    public boolean getOperation(OPERATION_TYPE operation_type, Object object, PERSISTENCE_UNIT persistence_unit) {
         EntityManager session = getSession(persistence_unit);
         try {
             session.getTransaction().begin();
             switch (operation_type) {
                 case SAVE:
                     LOG.info("Salvando registro no banco de dados");
+                    //session.getTransaction().begin();
                     session.persist(object);
                     session.getTransaction().commit();
                     //JOptionPane.showMessageDialog(null, "Registro salvo com sucesso", "Registro Salvo", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case UPDATE:
                     LOG.info("Atualizando registro no banco de dados");
+                    //session.getTransaction().begin();
                     session.merge(object);
                     session.getTransaction().commit();
                     //JOptionPane.showMessageDialog(null, "Registro alterado com sucesso", "Registro Alterado", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case DELETE:
                     LOG.info("Deletando registro no banco de dados");
-                    session.remove(object);
+                    //session.getTransaction().begin();
+                    session.remove(session.merge(object));
                     session.getTransaction().commit();
                     //JOptionPane.showMessageDialog(null, "Registro deletado com sucesso", "Registro Deletado", JOptionPane.INFORMATION_MESSAGE);
                     break;
             }
+            this.closeSession(persistence_unit);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            session.getTransaction().rollback();
-            closeSession(persistence_unit);
+            //session.getTransaction().rollback();
+            this.closeSession(persistence_unit);
             return false;
         }
     }
 
-    private EntityManager getSession(String persistence_unit) {
+    private EntityManager getSession(PERSISTENCE_UNIT persistence_unit) {
         EntityManager session = null;
         if (sessions.isEmpty()) {
-            sessions.put(persistence_unit, new ThreadLocal<>());
-            session = sessions.get(persistence_unit).get();
-            session = session == null ? EntityManagerFactoryService.getEntityManagerFactory(persistence_unit, propMap).createEntityManager() : session;
+            sessions.put(persistence_unit.toString(), new ThreadLocal<>());
+            session = sessions.get(persistence_unit.toString()).get();
+            session = session == null ? EntityManagerFactoryService.getEntityManagerFactory(persistence_unit.toString(), propMap).createEntityManager() : session;
+        } else {
+            session = sessions.get(persistence_unit.toString()).get();
+            session = session == null ? EntityManagerFactoryService.getEntityManagerFactory(persistence_unit.toString(), propMap).createEntityManager() : session;
         }
         return session;
     }
 
-    private void closeSession(String persistence_unit) {
+    private void closeSession(PERSISTENCE_UNIT persistence_unit) {
         EntityManager session = null;
         if (!sessions.isEmpty()) {
-            session = sessions.get(persistence_unit).get();
+            session = sessions.get(persistence_unit.toString()).get();
             LOG.info("Encerrando sessão do banco de dados");
             if (session != null) {
                 if (session.isOpen()) {
@@ -84,8 +89,8 @@ public class EntityManagerHelper<T> {
                 }
             }
         }
-        LOG.info("Removendo Entity Manager desta sessão");
-        sessions.remove(persistence_unit);
+        LOG.debug("Removendo Entity Manager desta sessão");
+        sessions.remove(persistence_unit.toString());
     }
 
     public void closeAll() {
@@ -93,7 +98,7 @@ public class EntityManagerHelper<T> {
         sessions.clear();
     }
 
-    public Connection getConnection(String persistence_unit) {
+    public Connection getConnection(PERSISTENCE_UNIT persistence_unit) {
         try {
             EntityManager entityManager = getSession(persistence_unit);
             Connection conn = ((EntityManagerImpl) (entityManager.getDelegate())).getServerSession().getAccessor().getConnection();
@@ -104,12 +109,12 @@ public class EntityManagerHelper<T> {
         return null;
     }
 
-    public List<T> getObjectList(String strHQL, String persistence_unit) {
+    public List<?> getObjectList(String strHQL, PERSISTENCE_UNIT persistence_unit) {
         try {
             EntityManager session = this.getSession(persistence_unit);
             session.getTransaction().begin();
             Query query = session.createQuery(strHQL);
-            List<T> objects = query.getResultList();
+            List<?> objects = query.getResultList();
             this.closeSession(persistence_unit);
             return objects;
         } catch (Exception e) {
@@ -118,13 +123,13 @@ public class EntityManagerHelper<T> {
         }
     }
 
-    public List<T> getObjectList(String strHQL, String strParam, Object valor, String persistence_unit) {
+    public List<?> getObjectList(String strHQL, String strParam, Object valor, PERSISTENCE_UNIT persistence_unit) {
         try {
             EntityManager session = this.getSession(persistence_unit);
             session.getTransaction().begin();
             Query query = session.createQuery(strHQL);
             query.setParameter(strParam, valor);
-            List<T> objects = query.getResultList();
+            List<?> objects = query.getResultList();
             this.closeSession(persistence_unit);
             return objects;
         } catch (Exception e) {
@@ -133,7 +138,7 @@ public class EntityManagerHelper<T> {
         }
     }
 
-    public List<T> getObjectListNamedQuery(Class<?> classType, String namedQuery, String[] strParam, Object[] valor, String persistence_unit) {
+    public List<?> getObjectListNamedQuery(Class<?> classType, String namedQuery, String[] strParam, Object[] valor, PERSISTENCE_UNIT persistence_unit) {
         try {
             EntityManager session = this.getSession(persistence_unit);
             session.getTransaction().begin();
@@ -144,7 +149,7 @@ public class EntityManagerHelper<T> {
                     query.setParameter(p, valor[cont++]);
                 }
             }
-            List<T> objects = query.getResultList();
+            List<?> objects = query.getResultList();
             this.closeSession(persistence_unit);
             return objects;
         } catch (Exception e) {
@@ -153,7 +158,7 @@ public class EntityManagerHelper<T> {
         }
     }
 
-    public List<T> getObjectNamedQuery(Class<?> classType, String namedQuery, String strParam, Object valor, String persistence_unit) {
+    public List<?> getObjectNamedQuery(Class<?> classType, String namedQuery, String strParam, Object valor, PERSISTENCE_UNIT persistence_unit) {
         try {
             EntityManager session = this.getSession(persistence_unit);
             session.getTransaction().begin();
@@ -162,7 +167,7 @@ public class EntityManagerHelper<T> {
             if (strParam != null) {
                 query.setParameter(strParam, valor);
             }
-            List<T> objects = query.getResultList();
+            List<?> objects = query.getResultList();
             this.closeSession(persistence_unit);
             return objects;
         } catch (Exception e) {
@@ -171,13 +176,13 @@ public class EntityManagerHelper<T> {
         }
     }
 
-    public List<T> getObjectList(String strHQL, String strParam, Boolean valor, String persistence_unit) {
+    public List<?> getObjectList(String strHQL, String strParam, Boolean valor, PERSISTENCE_UNIT persistence_unit) {
         try {
             EntityManager session = this.getSession(persistence_unit);
             session.getTransaction().begin();
             Query query = session.createQuery(strHQL);
             query.setParameter(strParam, valor);
-            List<T> objects = query.getResultList();
+            List<?> objects = query.getResultList();
             this.closeSession(persistence_unit);
             return objects;
         } catch (Exception e) {
@@ -186,13 +191,13 @@ public class EntityManagerHelper<T> {
         }
     }
 
-    public T getObject(String strHQL, String persistence_unit) {
+    public Object getObject(String strHQL, PERSISTENCE_UNIT persistence_unit) {
         try {
-            T temp;
+            Object temp;
             EntityManager session = this.getSession(persistence_unit);
             session.getTransaction().begin();
             Query query = session.createQuery(strHQL);
-            List<T> objects = (List<T>) query.getResultList();
+            List<?> objects = query.getResultList();
             this.closeSession(persistence_unit);
             temp = objects.get(0);
             return temp;
@@ -202,14 +207,14 @@ public class EntityManagerHelper<T> {
         }
     }
 
-    public T getObject(String strHQL, String strParam, Object valor, String persistence_unit) {
+    public Object getObject(String strHQL, String strParam, Object valor, PERSISTENCE_UNIT persistence_unit) {
         try {
-            T temp;
+            Object temp;
             EntityManager session = this.getSession(persistence_unit);
             session.getTransaction().begin();
             Query query = session.createQuery(strHQL);
             query.setParameter(strParam, valor);
-            List<T> objects = (List<T>) query.getResultList();
+            List<?> objects = query.getResultList();
             this.closeSession(persistence_unit);
             temp = objects.get(0);
             return temp;
@@ -219,9 +224,9 @@ public class EntityManagerHelper<T> {
         }
     }
 
-    public T getObject(String strHQL, String[] strParam, String[] valor, String persistence_unit) {
+    public Object getObject(String strHQL, String[] strParam, String[] valor, PERSISTENCE_UNIT persistence_unit) {
         try {
-            T temp;
+            Object temp;
             EntityManager session = this.getSession(persistence_unit);
             session.getTransaction().begin();
             Query query = session.createQuery(strHQL);
@@ -230,7 +235,7 @@ public class EntityManagerHelper<T> {
                     query.setParameter(strParam[i], valor[i]);
                 }
             }
-            T objects = (T) query.getSingleResult();
+            Object objects = query.getSingleResult();
             this.closeSession(persistence_unit);
             temp = objects;
             return temp;
@@ -240,5 +245,12 @@ public class EntityManagerHelper<T> {
             return null;
         }
     }
-    
+
+    public static enum OPERATION_TYPE {
+        SAVE, UPDATE, DELETE
+    }
+
+    public static enum PERSISTENCE_UNIT {
+        DERBYDB_PU, ORACLE11G_PU
+    }
 }

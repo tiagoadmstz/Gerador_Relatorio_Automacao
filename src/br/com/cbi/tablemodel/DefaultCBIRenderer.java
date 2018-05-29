@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class DefaultCBIRenderer extends DefaultTableCellRenderer {
 
+    private static final long serialVersionUID = 8245482942826510979L;
+
     private final Color gray = new Color(225, 225, 225);
     private final Color white = new Color(255, 255, 255);
     private int column = 0;

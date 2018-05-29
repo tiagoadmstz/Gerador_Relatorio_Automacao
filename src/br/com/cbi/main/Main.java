@@ -5,20 +5,22 @@
  */
 package br.com.cbi.main;
 
+import br.com.cbi.frames.Form_Splash;
+import br.com.cbi.util.Utilidades;
+
 /**
  *
- * @author Tiago D. Teixeira
+ * @author tiago.teixeira
  */
 public class Main {
 
-    protected static Form_Main form;
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        form = new Form_Main();
-        form.setVisible(true);
+        Utilidades.mudaLookAndFeel(Utilidades.WINDOWS);
+        Form_Splash splashForm = new Form_Splash();
+        splashForm.setVisible(true);
     }
     
 }

@@ -5,23 +5,31 @@
  */
 package br.com.cbi.annotations;
 
-import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
- * @author Tiago
+ * Anotação para mapeamento de campos de formulários utilizados por classes com atributos simples
+ * 
+ * @author tiago.teixeira
  */
-@Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MapFrameField {
-
+    
+    /**
+     * O tipo do campo que será utilizado dentro da classe que o possui
+     * 
+     * @return Classe
+     */
+    public Class typeParameter(); 
+    /**
+     * O nome do campo que será utilizado
+     * 
+     * @return 
+     */
     public String referencedField();
-
-    public Class typeReference();
     
 }

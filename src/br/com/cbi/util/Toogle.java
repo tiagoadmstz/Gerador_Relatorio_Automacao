@@ -34,4 +34,8 @@ public class Toogle {
             c.setVisible(!c.isVisible());
         });
     }
+    
+    public static String toogleBoolean(String bool){
+        return bool.equals("true") ? "false" : "true";
+    }
 }

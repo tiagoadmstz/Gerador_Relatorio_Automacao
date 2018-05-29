@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.cbi.main;
+package br.com.cbi.frames;
 
 import br.com.cbi.annotations.MapFrameField;
 import br.com.cbi.beans.MenuBarCbiDefault;
 import br.com.cbi.dal.AlgoritimosDB;
 import br.com.cbi.entities.Atendimento;
-import br.com.cbi.listeners.Listener_Main;
+import br.com.cbi.listeners.Listener_Atendimento;
 import br.com.cbi.util.ManipulaFrames;
 import br.com.cbi.util.Utilidades;
 import java.util.Arrays;
@@ -26,20 +26,20 @@ import javax.swing.JTextField;
  *
  * @author Tiago
  */
-public final class Form_Main extends ManipulaFrames {
+public final class Form_Atendimento extends ManipulaFrames {
 
     private static final long serialVersionUID = -7054545364563752986L;
-    private final Listener_Main listener;
+    private final Listener_Atendimento listener;
     private Atendimento atendimento = new Atendimento();
 
     /**
      * Creates new form MainForm
      */
-    public Form_Main() {
+    public Form_Atendimento() {
         Utilidades.mudaLookAndFeel(3);
         setImageIcon();
         initComponents();
-        listener = new Listener_Main(this);
+        listener = new Listener_Atendimento(this);
         //startDB();
     }
 
@@ -62,122 +62,122 @@ public final class Form_Main extends ManipulaFrames {
         return menuBarCbiDefault;
     }
 
-    @MapFrameField(referencedField = "clienteFinal", typeReference = String.class)
+    @MapFrameField(referencedField = "clienteFinal", typeParameter = String.class)
     public JTextField getTxtCliente() {
         return txtCliente;
     }
 
-    @MapFrameField(referencedField = "nomeAutorizada", typeReference = String.class)
+    @MapFrameField(referencedField = "nomeAutorizada", typeParameter = String.class)
     public JComboBox<String> getCbAutorizada() {
         return cbAutorizada;
     }
 
-    @MapFrameField(referencedField = "condicoesFuncionamento", typeReference = String.class)
+    @MapFrameField(referencedField = "condicoesFuncionamento", typeParameter = String.class)
     public JComboBox<String> getCbCondicaoFuncionamento() {
         return cbCondicaoFuncionamento;
     }
 
-    @MapFrameField(referencedField = "nomeTecnico", typeReference = String.class)
+    @MapFrameField(referencedField = "nomeTecnico", typeParameter = String.class)
     public JComboBox<String> getCbTecnico() {
         return cbTecnico;
     }
 
-    @MapFrameField(referencedField = "tipoAtendimento", typeReference = String.class)
+    @MapFrameField(referencedField = "tipoAtendimento", typeParameter = String.class)
     public JComboBox<String> getCbTipoAtendimento() {
         return cbTipoAtendimento;
     }
 
-    @MapFrameField(referencedField = "defeitoReclamado", typeReference = String.class)
+    @MapFrameField(referencedField = "defeitoReclamado", typeParameter = String.class)
     public JTextArea getTaDefeitoReclamado() {
         return taDefeitoReclamado;
     }
 
-    @MapFrameField(referencedField = "bairro", typeReference = String.class)
+    @MapFrameField(referencedField = "bairro", typeParameter = String.class)
     public JTextField getTxtBairro() {
         return txtBairro;
     }
 
-    @MapFrameField(referencedField = "celular", typeReference = String.class)
+    @MapFrameField(referencedField = "celular", typeParameter = String.class)
     public JTextField getTxtCelular() {
         return txtCelular;
     }
 
-    @MapFrameField(referencedField = "cidade", typeReference = String.class)
+    @MapFrameField(referencedField = "cidade", typeParameter = String.class)
     public JTextField getTxtCidade() {
         return txtCidade;
     }
 
-    //@MapFrameField(referencedField = "dataAtendimento", typeReference = LocalDateTime.class)
+    //@MapFrameField(referencedField = "dataAtendimento", typeParameter = LocalDateTime.class)
     public JTextField getTxtData() {
         return txtData;
     }
 
-    @MapFrameField(referencedField = "email", typeReference = String.class)
+    @MapFrameField(referencedField = "email", typeParameter = String.class)
     public JTextField getTxtEmail() {
         return txtEmail;
     }
 
-    @MapFrameField(referencedField = "endereco", typeReference = String.class)
+    @MapFrameField(referencedField = "endereco", typeParameter = String.class)
     public JTextField getTxtEndereco() {
         return txtEndereco;
     }
 
-    @MapFrameField(referencedField = "equipamento", typeReference = String.class)
+    @MapFrameField(referencedField = "equipamento", typeParameter = String.class)
     public JTextField getTxtEquipamento() {
         return txtEquipamento;
     }
 
-    @MapFrameField(referencedField = "estado", typeReference = String.class)
+    @MapFrameField(referencedField = "estado", typeParameter = String.class)
     public JTextField getTxtEstado() {
         return txtEstado;
     }
 
-    //@MapFrameField(referencedField = "id", typeReference = Long.class)
+    //@MapFrameField(referencedField = "id", typeParameter = Long.class)
     public JTextField getTxtId() {
         return txtId;
     }
 
-    @MapFrameField(referencedField = "kmRodado", typeReference = String.class)
+    @MapFrameField(referencedField = "kmRodado", typeParameter = String.class)
     public JTextField getTxtKmRodado() {
         return txtKmRodado;
     }
 
-    @MapFrameField(referencedField = "localAtendimento", typeReference = String.class)
+    @MapFrameField(referencedField = "localAtendimento", typeParameter = String.class)
     public JTextField getTxtLocal() {
         return txtLocal;
     }
 
-    @MapFrameField(referencedField = "nomeCliente", typeReference = String.class)
+    @MapFrameField(referencedField = "nomeCliente", typeParameter = String.class)
     public JTextField getTxtNomeCliente() {
         return txtNomeCliente;
     }
 
-    @MapFrameField(referencedField = "numero", typeReference = String.class)
+    @MapFrameField(referencedField = "numero", typeParameter = String.class)
     public JTextField getTxtNumero() {
         return txtNumero;
     }
 
-    @MapFrameField(referencedField = "numeroRelatorio", typeReference = String.class)
+    @MapFrameField(referencedField = "numeroRelatorio", typeParameter = String.class)
     public JTextField getTxtNumeroRelaorio() {
         return txtNumeroRelaorio;
     }
 
-    @MapFrameField(referencedField = "numeroPW", typeReference = String.class)
+    @MapFrameField(referencedField = "numeroPW", typeParameter = String.class)
     public JTextField getTxtPW() {
         return txtPW;
     }
 
-    @MapFrameField(referencedField = "produto", typeReference = String.class)
+    @MapFrameField(referencedField = "produto", typeParameter = String.class)
     public JTextField getTxtProduto() {
         return txtProduto;
     }
 
-    @MapFrameField(referencedField = "numeroSerie", typeReference = String.class)
+    @MapFrameField(referencedField = "numeroSerie", typeParameter = String.class)
     public JTextField getTxtSerie() {
         return txtSerie;
     }
 
-    @MapFrameField(referencedField = "telefone", typeReference = String.class)
+    @MapFrameField(referencedField = "telefone", typeParameter = String.class)
     public JTextField getTxtTelefone() {
         return txtTelefone;
     }
@@ -793,21 +793,23 @@ public final class Form_Main extends ManipulaFrames {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form_Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_Atendimento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form_Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_Atendimento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form_Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_Atendimento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form_Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_Atendimento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Form_Main().setVisible(true);
+                new Form_Atendimento().setVisible(true);
             }
         });
     }

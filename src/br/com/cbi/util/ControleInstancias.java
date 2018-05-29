@@ -30,17 +30,14 @@ public class ControleInstancias {
     }
 
     public static Object getInstance(String nome) {
-        //return INSTANCIAS.get(nome);
-        Object ob = INSTANCIAS.get(nome);
-        if(ob == null){
-            try{
-                ob = createObject(Class.forName(nome));
-                setControleInstancias(nome, ob);
-            } catch (Exception ex){
-                return ob;
+        try {
+            if(!INSTANCIAS.containsKey(nome)){
+                return createInstance(nome);
             }
+            return INSTANCIAS.get(nome);
+        } catch (Exception e) {
+            return null;
         }
-        return ob;
     }
 
     public static void removeInstance(String nome) {
@@ -52,6 +49,21 @@ public class ControleInstancias {
         setControleInstancias(loginFrame.getClass().getName(), loginFrame);
         loginFrame.setVisible(true);
     }
+
+    private static Object createInstance(String nome) throws Exception {
+        Class<?> clazz = Class.forName(nome);
+        for (Constructor construtor : clazz.getConstructors()) {
+            if (construtor.getParameterCount() == 0) {
+                Object ob = construtor.newInstance();
+                setControleInstancias(nome, ob);
+                return ob;
+            } else {
+                return null;
+            }
+        }
+        return null;
+    }
+    
 
     private static void clear() {
         INSTANCIAS.values().forEach(ob -> {
@@ -73,15 +85,6 @@ public class ControleInstancias {
                 removeInstance(e.getSource().getClass().getName());
             }
         }
-    }
-
-    private static Object createObject(Class<?> classe) throws Exception {
-            for (Constructor construtor : classe.getConstructors()) {
-                if(construtor.getParameterCount() == 0){
-                    return construtor.newInstance();
-                }
-            }
-            return null;
     }
 
 }

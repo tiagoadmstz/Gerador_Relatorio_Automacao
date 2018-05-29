@@ -7,19 +7,17 @@ package br.com.cbi.util;
 
 import br.com.cbi.annotations.MapFrameField;
 import br.com.cbi.beans.JTextFieldCBI;
-import br.com.cbi.dal.EntityManagerHelper;
+import br.com.cbi.msg.MessageFactory;
 import br.com.cbi.tablemodel.TableModelDefaultAdapter;
 import java.awt.Component;
-import java.io.Serializable;
+import java.awt.Image;
 import java.lang.reflect.Method;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
+import javax.persistence.Column;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -40,54 +38,55 @@ import javax.swing.JTextField;
 /**
  * @author tiago.teixeira
  */
-public abstract class ManipulaFrames extends JFrame implements Serializable {
+public abstract class ManipulaFrames extends JFrame {
 
-    private static final long serialVersionUID = -3961370694826014470L;
-    public static final int NOVO = 0, CANCELAR = 1, DELETAR = 1, ALTERAR = 2, SALVAR = 3, EDITAR = 4, IMPRIMIR = 5;
+    private static final long serialVersionUID = 5932987037949674860L;
+    public static int NOVO = 0, CANCELAR = 1, SALVAR = 3, EDITAR = 4, FECHAR = 1, IMPRIMIR = 5, DELETAR = 1, ALTERAR = 2;
+    private final Image image = new ImageIcon(getClass().getResource("/br/com/cbi/img/iconeCBI.gif")).getImage();
 
     public Optional<List<JPanel>> getListPaineis() {
-        return Optional.ofNullable(null);
+        return Optional.empty();
     }
 
     public Optional<List<JComponent>> getListMenus() {
-        return Optional.ofNullable(null);
+        return Optional.empty();
     }
 
     public void novo() {
-        getListPaineis().ifPresent(lista -> lista.forEach(pl -> enableDisableComponentJFrame(NOVO, pl.getComponents())));
-        getListMenus().ifPresent(lista -> lista.forEach(comp -> operacaoEnableOrder(NOVO, comp)));
+        getListPaineis().get().forEach(pl -> enableDisableComponentJFrame(ManipulaFrames.NOVO, pl.getComponents()));
+        operacaoEnableOrder(ManipulaFrames.NOVO, getListMenus().get());
     }
 
     public void cancelar() {
-        getListPaineis().ifPresent(lista -> lista.forEach(pl -> enableDisableComponentJFrame(CANCELAR, pl.getComponents())));
-        getListMenus().ifPresent(lista -> lista.forEach(comp -> operacaoEnableOrder(CANCELAR, comp)));
+        getListPaineis().get().forEach(pl -> enableDisableComponentJFrame(ManipulaFrames.CANCELAR, pl.getComponents()));
+        operacaoEnableOrder(ManipulaFrames.CANCELAR, getListMenus().get());
     }
 
-    public void salvar(ManipulaBean object, EntityManagerHelper emh) {
-        if (MessageFactory.getMsgApp(MessageFactory.SALVAR, this)) {
-            object.clear();
-            getObject(object);
-            MessageFactory.getPersistenceMsg(MessageFactory.SALVAR, emh.getOperation(EntityManagerHelper.SAVE, object, EntityManagerHelper.DERBYDB_PU), this);
-            getListPaineis().ifPresent(lista -> lista.forEach(pl -> enableDisableComponentJFrame(SALVAR, pl.getComponents())));
-            getListMenus().ifPresent(lista -> lista.forEach(comp -> operacaoEnableOrder(SALVAR, comp)));
-            setObject(object);
+    public void editar(){
+        getListPaineis().get().forEach(pl -> enableDisableComponentJFrame(ManipulaFrames.EDITAR, pl.getComponents()));
+        operacaoEnableOrder(ManipulaFrames.EDITAR, getListMenus().get());
+    }
+    
+    public void setMenuEditarOpcoes(){
+        operacaoEnableOrder(ManipulaFrames.SALVAR, getListMenus().get());
+    }
+    
+    public boolean validaCampos(ManipulaBean object) {
+        try {
+            for (Method mo : object.getClass().getDeclaredMethods()) {
+                if (mo.isAnnotationPresent(Column.class)) {
+                    Column column = mo.getAnnotation(Column.class);
+                    if (!column.nullable()) {
+                        return mo.invoke(object) != null && !mo.invoke(object).equals("");
+                    } else {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
         }
-    }
-
-    public void fechar() {
-        if (MessageFactory.getMsgApp(MessageFactory.FECHAR_FRAME, this)) {
-            this.dispose();
-        }
-    }
-
-    public void fecharSistema() {
-        if (MessageFactory.getMsgApp(MessageFactory.FECHAR_SISTEMA, this)) {
-            System.exit(0);
-        }
-    }
-
-    protected void setImageIcon() {
-        setIconImage(new ImageIcon(getClass().getResource("/br/com/cbi/img/iconeCBI.gif")).getImage());
     }
 
     /**
@@ -152,7 +151,7 @@ public abstract class ManipulaFrames extends JFrame implements Serializable {
         //"Novo", "Cancelar", "Alterar", "Salvar", "Editar", "Fechar", "Imprimir", "Deletar"
         Boolean[][] opcoes = new Boolean[][]{
             {false, true, true, false, false, false, false, false}, //novo
-            {true, false, false, false, false, true, true, true}, //cancelar e deletar
+            {true, false, false, false, true, false, false, true}, //cancelar e deletar
             {true, false, false, true, true, true, true, true}, //alterar
             {true, false, false, true, true, true, true, true}, //salvar
             {false, true, true, false, false, false, false, false} //editar
@@ -197,13 +196,8 @@ public abstract class ManipulaFrames extends JFrame implements Serializable {
         }
     }
 
-    /**
-     * Este método limpa todos os campos presentes em um formulário
-     *
-     * @param codigoOperacao
-     * @param componentes
-     */
     public void limparCampos(int codigoOperacao, Component[] componentes) {
+
         if (codigoOperacao != EDITAR && codigoOperacao != SALVAR && codigoOperacao != ALTERAR) {
             for (Component component : componentes) {
                 if (component instanceof JFormattedTextField) {
@@ -243,22 +237,28 @@ public abstract class ManipulaFrames extends JFrame implements Serializable {
         }
     }
 
-    /**
-     * Este método inseri os dados do objecto no frame
-     *
-     * @param object
-     */
-    public void setObject(ManipulaBean object) {
-        getDados(object);
+    protected void setImageIcon() {
+        setIconImage(image);
+    }
+    
+    public void fechar() {
+        if (MessageFactory.getQuestionMessage(MessageFactory.FECHAR, this)) {
+            this.dispose();
+        }
     }
 
-    /**
-     * Este método retorna o objecto que o frame representa
-     *
-     * @param object
-     */
+    public void fecharSistema() {
+        if (MessageFactory.getQuestionMessage(MessageFactory.FECHAR_SISTEMA, this)) {
+            System.exit(0);
+        }
+    }
+    
     public void getObject(ManipulaBean object) {
         setDados(object);
+    }
+
+    public void setObject(ManipulaBean object) {
+        getDados(object);
     }
 
     protected void setDados(ManipulaBean object) {
@@ -266,36 +266,11 @@ public abstract class ManipulaFrames extends JFrame implements Serializable {
             for (Method mf : getClass().getDeclaredMethods()) {
                 if (mf.isAnnotationPresent(MapFrameField.class)) {
                     MapFrameField map = mf.getAnnotation(MapFrameField.class);
-                    Method mo = object.getClass().getMethod("set".concat(map.referencedField().replaceFirst("\\w", map.referencedField().substring(0, 1).toUpperCase())), map.typeReference());
+                    Method mo = object.getClass().getDeclaredMethod("set".concat(map.referencedField().replaceFirst("\\w", map.referencedField().substring(0, 1).toUpperCase())), map.typeParameter());
 
-                    //verifica o tipo de retorno do getter
-                    if (mf.getReturnType() == JTextFieldCBI.class | mf.getReturnType() == JTextField.class | mf.getReturnType() == JTextArea.class) {
-                        //pega o método set referenciado na variável sm e invoca o método getText do TextField
-                        mo.invoke(object, CastFactory.cast((mf.invoke(this).getClass().getMethod("getText")).invoke(mf.invoke(this)), map.typeReference()));
-                    } else if (mf.getReturnType() == JComboBox.class) {
-                        String metodo = null;
-                        if (map.typeReference() == String.class) {
-                            metodo = "getSelectedItem";
-                        } else if (map.typeReference() == Integer.class) {
-                            metodo = "getSelectedIndex";
-                        }
-                        mo.invoke(object, (mf.invoke(this).getClass().getMethod(metodo)).invoke(mf.invoke(this)));
-                    } else if (mf.getReturnType() == JCheckBox.class) {
-                        mo.invoke(object, (mf.invoke(this).getClass().getMethod("isSelected")).invoke(mf.invoke(this)));
-                    } else if (mf.getReturnType() == ButtonGroup.class) {
-                        Enumeration<AbstractButton> e = (Enumeration<AbstractButton>) (mf.invoke(this).getClass().getMethod("getElements").invoke(mf.invoke(this)));
-                        while (e.hasMoreElements()) {
-                            AbstractButton ab = e.nextElement();
-                            if (ab.isSelected()) {
-                                mo.invoke(object, ab.getText());
-                                break;
-                            }
-                        }
-                    } else if (mf.getReturnType() == JTable.class) {
-                        TableModelDefaultAdapter model = (TableModelDefaultAdapter) mf.invoke(this).getClass().getMethod("getModel").invoke(mf.invoke(this));
-                        mo.invoke(object, model.clonar());
+                    if (mf.getReturnType() == JTextField.class || mf.getReturnType() == JTextFieldCBI.class) {
+                        mo.invoke(object, CastFactory.cast(mf.invoke(this).getClass().getMethod("getText").invoke(mf.invoke(this)), map.annotationType()));
                     }
-
                 }
             }
         } catch (Exception e) {
@@ -308,33 +283,10 @@ public abstract class ManipulaFrames extends JFrame implements Serializable {
             for (Method mf : getClass().getDeclaredMethods()) {
                 if (mf.isAnnotationPresent(MapFrameField.class)) {
                     MapFrameField map = mf.getAnnotation(MapFrameField.class);
-                    Method mo = object.getClass().getMethod("get".concat(map.referencedField().replaceFirst("\\w", map.referencedField().substring(0, 1).toUpperCase())));
+                    Method mo = object.getClass().getDeclaredMethod("get".concat(map.referencedField().replaceFirst("\\w", map.referencedField().substring(0, 1).toUpperCase())));
 
-                    //pega o método set referenciado na variável sm e invoca o método getText do TextField
-                    if (mf.getReturnType() == JTextFieldCBI.class | mf.getReturnType() == JTextField.class | mf.getReturnType() == JTextArea.class) {
-                        mf.invoke(this).getClass().getMethod("setText", String.class).invoke(mf.invoke(this), CastFactory.cast(mo.invoke(this), String.class));
-                    } else if (mf.getReturnType() == JComboBox.class) {
-                        if (map.typeReference() == String.class) {
-                            mf.invoke(this).getClass().getMethod("setSelectedItem", Object.class).invoke(mf.invoke(this), CastFactory.cast(mo.invoke(this), Object.class));
-                        } else if (map.typeReference() == Integer.class) {
-                            mf.invoke(this).getClass().getMethod("setSelectedIndex", int.class).invoke(mf.invoke(this), mo.invoke(this));
-                        }
-                    } else if (mf.getReturnType() == JCheckBox.class) {
-                        mf.invoke(this).getClass().getMethod("setSelected", map.typeReference()).invoke(mf.invoke(this), mo.invoke(this));
-                    } else if (mf.getReturnType() == ButtonGroup.class) {
-                        Enumeration<AbstractButton> e = (Enumeration<AbstractButton>) (mf.invoke(this).getClass().getMethod("getElements").invoke(mf.invoke(this)));
-                        while (e.hasMoreElements()) {
-                            AbstractButton ab = e.nextElement();
-                            if (Objects.equals(mo.invoke(this), ab.getText())) {
-                                ab.setSelected(true);
-                            } else {
-                                ab.setSelected(false);
-                            }
-                        }
-                    } else if (mf.getReturnType() == JTable.class) {
-                        TableModelDefaultAdapter model = (TableModelDefaultAdapter) mf.invoke(this).getClass().getMethod("getModel").invoke(mf.invoke(this));
-                        model.deletarLista();
-                        model.addLista((List<?>) mo.invoke(this));
+                    if (mf.getReturnType() == JTextField.class || mf.getReturnType() == JTextFieldCBI.class) {
+                        mf.invoke(this).getClass().getMethod("setText", String.class).invoke(mf.invoke(this), mo.invoke(object));
                     }
                 }
             }

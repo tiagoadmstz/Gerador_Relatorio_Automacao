@@ -20,7 +20,8 @@ import javax.swing.JSeparator;
  */
 public class MenuBarCbiDefault extends JMenuBar {
 
-    private static final long serialVersionUID = -817017516809273586L;
+    private static final long serialVersionUID = -3214652169134201254L;
+
     private JMenu menuArquivo;
     private JMenuItem itemNovo;
     private JMenuItem itemEditar;
@@ -58,7 +59,7 @@ public class MenuBarCbiDefault extends JMenuBar {
         itemImprimir = new JMenuItem("Imprimir");
         itemImprimir.setActionCommand("imprimir");
         itemDeletar = new JMenuItem("Deletar");
-        itemDeletar.setActionCommand("imprimir");
+        itemDeletar.setActionCommand("deletar");
         itemDeletar.setEnabled(false);
         itemPesquisar = new JMenuItem("Pesquisar");
         itemPesquisar.setActionCommand("pesquisar");
@@ -108,36 +109,72 @@ public class MenuBarCbiDefault extends JMenuBar {
         return menuArquivo;
     }
 
+    public void setMenuArquivo(JMenu menuArquivo) {
+        this.menuArquivo = menuArquivo;
+    }
+
     public JMenuItem getItemNovo() {
         return itemNovo;
+    }
+
+    public void setItemNovo(JMenuItem itemNovo) {
+        this.itemNovo = itemNovo;
     }
 
     public JMenuItem getItemEditar() {
         return itemEditar;
     }
 
+    public void setItemEditar(JMenuItem itemEditar) {
+        this.itemEditar = itemEditar;
+    }
+
     public JMenuItem getItemAlterar() {
         return itemAlterar;
+    }
+
+    public void setItemAlterar(JMenuItem itemAlterar) {
+        this.itemAlterar = itemAlterar;
     }
 
     public JMenuItem getItemCancelar() {
         return itemCancelar;
     }
 
+    public void setItemCancelar(JMenuItem itemCancelar) {
+        this.itemCancelar = itemCancelar;
+    }
+
     public JMenuItem getItemFechar() {
         return itemFechar;
+    }
+
+    public void setItemFechar(JMenuItem itemFechar) {
+        this.itemFechar = itemFechar;
     }
 
     public JMenuItem getItemImprimir() {
         return itemImprimir;
     }
 
+    public void setItemImprimir(JMenuItem itemImprimir) {
+        this.itemImprimir = itemImprimir;
+    }
+
     public JMenuItem getItemDeletar() {
         return itemDeletar;
     }
 
+    public void setItemDeletar(JMenuItem itemDeletar) {
+        this.itemDeletar = itemDeletar;
+    }
+
     public JMenuItem getItemPesquisar() {
         return itemPesquisar;
+    }
+
+    public void setItemPesquisar(JMenuItem itemPesquisar) {
+        this.itemPesquisar = itemPesquisar;
     }
 
 }

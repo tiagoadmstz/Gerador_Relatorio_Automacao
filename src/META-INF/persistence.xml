@@ -8,7 +8,11 @@
     <class>br.com.cbi.entities.Tecnico</class>
     <class>br.com.cbi.converters.BigDecimalConverter</class>
     <class>br.com.cbi.converters.LocalDateTimeConverter</class>
-    
+    <class>br.com.cbi.entities.Cidade</class>
+    <class>br.com.cbi.entities.Filtro</class>
+    <class>br.com.cbi.entities.Report_Group</class>
+    <class>br.com.cbi.entities.SresReport</class>
+    <class>br.com.cbi.entities.Usuario</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/GRA_PROD"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

@@ -5,7 +5,7 @@
  */
 package br.com.cbi.beans;
 
-import br.com.cbi.util.ControleUsuarios;
+import br.com.cbi.util.ControleUsuario;
 import br.com.cbi.util.Toogle;
 import java.awt.AWTEvent;
 import java.awt.Color;
@@ -215,7 +215,7 @@ public class JStatusBarCBI extends JPanel implements Runnable {
             });
         }
 
-        labels[0].setText(ControleUsuarios.getUsuarioAtual() != null ? "Usuário" : "Não há usuário logado");
+        labels[0].setText(ControleUsuario.getUsuarioAtual() != null ? ControleUsuario.getUsuarioAtual().getNomeUsuario() : "Não há usuário logado");
         labels[6].setEnabled(Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK));
         labels[7].setEnabled(Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_NUM_LOCK));
 
