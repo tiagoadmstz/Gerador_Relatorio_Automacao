@@ -5,25 +5,30 @@
  */
 package br.com.cbi.main;
 
+import br.com.cbi.annotations.MapFrameField;
 import br.com.cbi.beans.MenuBarCbiDefault;
 import br.com.cbi.dal.AlgoritimosDB;
+import br.com.cbi.entities.Atendimento;
 import br.com.cbi.listeners.Listener_Main;
 import br.com.cbi.util.ManipulaFrames;
 import br.com.cbi.util.Utilidades;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.ImageIcon;
+import java.util.Optional;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Tiago
  */
-public final class Form_Main extends ManipulaFrames {
+public final class Form_Main extends ManipulaFrames<Atendimento> {
 
     private static final long serialVersionUID = -7054545364563752986L;
     private final Listener_Main listener;
+    private Atendimento atendimento = new Atendimento();
 
     /**
      * Creates new form MainForm
@@ -42,12 +47,22 @@ public final class Form_Main extends ManipulaFrames {
     }
 
     @Override
-    public List<JPanel> getListPaineis(){
-        return Arrays.asList(painel_Atendimento, painel_Defeito, painel_Pecas, painel_Jornada);
+    public Optional<List<JPanel>> getListPaineis(){
+        return Optional.ofNullable(Arrays.asList(painel_Atendimento, painel_Defeito, painel_Pecas, painel_Jornada));
+    }
+
+    @Override
+    public Optional<List<JComponent>> getListMenus() {
+        return Optional.ofNullable(menuBarCbiDefault.getListMenuItens());
     }
     
     public MenuBarCbiDefault getMenuBarCbiDefault() {
         return menuBarCbiDefault;
+    }
+
+    @MapFrameField(referencedField = "clienteFinal", typeReference = String.class)
+    public JTextField getTxtCliente() {
+        return txtCliente;
     }
 
     public JTable getTbJornada() {
@@ -244,6 +259,11 @@ public final class Form_Main extends ManipulaFrames {
         btNovo.setText("Novo");
         btNovo.setActionCommand("novo");
         btNovo.setPreferredSize(new java.awt.Dimension(75, 23));
+        btNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNovoActionPerformed(evt);
+            }
+        });
 
         btCancelar.setText("Cancelar");
         btCancelar.setActionCommand("cancelar");
@@ -616,6 +636,14 @@ public final class Form_Main extends ManipulaFrames {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
+        getObject(atendimento);
+        System.out.println(atendimento.getClienteFinal());
+        atendimento.setClienteFinal("está funcionando");
+        setObject(atendimento);
+        System.out.println(atendimento.getClienteFinal());
+    }//GEN-LAST:event_btNovoActionPerformed
 
     /**
      * @param args the command line arguments

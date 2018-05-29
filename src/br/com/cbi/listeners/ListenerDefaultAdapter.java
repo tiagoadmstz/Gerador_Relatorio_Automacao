@@ -5,8 +5,10 @@
  */
 package br.com.cbi.listeners;
 
+import br.com.cbi.util.ManipulaFrames;
 import br.com.cbi.util.MessageFactory;
 import com.sun.glass.events.KeyEvent;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
@@ -41,14 +43,6 @@ public abstract class ListenerDefaultAdapter<T> implements Serializable, ActionL
     protected void carregarListas() {
     }
 
-    protected void novo() {
-        
-    }
-
-    protected void cancelar() {
-
-    }
-
     protected void salvar(){
         
     }
@@ -65,27 +59,25 @@ public abstract class ListenerDefaultAdapter<T> implements Serializable, ActionL
 
     }
 
-    protected void fechar() {
-        JFrame f = (JFrame) this.form;
-        if (MessageFactory.getMsgApp(MessageFactory.FECHAR_FRAME, f)) {
-            f.dispose();
-        }
-    }
-
-    protected void fecharSistema() {
-        JFrame f = (JFrame) this.form;
-        if (MessageFactory.getMsgApp(MessageFactory.FECHAR_SISTEMA, f)) {
-            System.exit(0);
-        }
-    }
-
     protected void fecharEsc(JMenuItem itemFechar) {
         itemFechar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void actionPerformed(ActionEvent event) {
+        ((ManipulaFrames) form).setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        switch (event.getActionCommand()) {
+            case "novo":
+                ((ManipulaFrames) form).novo();
+                break;
+            case "cancelar":
+                ((ManipulaFrames) form).cancelar();
+                break;
+            case "fechar":
+                ((ManipulaFrames) form).fecharSistema();
+                break;
+        }
+        ((ManipulaFrames) form).setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
 }
