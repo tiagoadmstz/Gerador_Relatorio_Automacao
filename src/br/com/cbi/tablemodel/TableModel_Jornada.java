@@ -6,7 +6,8 @@
 package br.com.cbi.tablemodel;
 
 import br.com.cbi.entities.Jornada;
-import java.time.LocalDateTime;
+import br.com.cbi.util.Datas;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -64,31 +65,33 @@ public final class TableModel_Jornada extends TableModelDefaultAdapter<Jornada> 
         Jornada jornada = lista.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                jornada.setDataJornada(aValue != null ? LocalDateTime.parse(aValue.toString()) : null);
+                jornada.setDataJornada(aValue != null
+                        ? LocalDate.parse(Datas.getDateString(aValue.toString(), Datas.VERIFICAR_DATA), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                        : null);
                 break;
             case 1:
-                jornada.setDeslocamento_in(aValue.toString());
+                jornada.setDeslocamento_in(Datas.getHour(aValue.toString(), Datas.VERIFICAR_HORA));
                 break;
             case 2:
-                jornada.setDeslocamento_out(aValue.toString());
+                jornada.setDeslocamento_out(Datas.getHour(aValue.toString(), Datas.VERIFICAR_HORA));
                 break;
             case 3:
-                jornada.setTrabalho_in(aValue.toString());
+                jornada.setTrabalho_in(Datas.getHour(aValue.toString(), Datas.VERIFICAR_HORA));
                 break;
             case 4:
-                jornada.setTrabalho_out(aValue.toString());
+                jornada.setTrabalho_out(Datas.getHour(aValue.toString(), Datas.VERIFICAR_HORA));
                 break;
             case 5:
-                jornada.setRefeicao_in(aValue.toString());
+                jornada.setRefeicao_in(Datas.getHour(aValue.toString(), Datas.VERIFICAR_HORA));
                 break;
             case 6:
-                jornada.setRefeicao_out(aValue.toString());
+                jornada.setRefeicao_out(Datas.getHour(aValue.toString(), Datas.VERIFICAR_HORA));
                 break;
             case 7:
-                jornada.setDeslocamentoSaida_in(aValue.toString());
+                jornada.setDeslocamentoSaida_in(Datas.getHour(aValue.toString(), Datas.VERIFICAR_HORA));
                 break;
             case 8:
-                jornada.setDeslocamentoSaida_out(aValue.toString());
+                jornada.setDeslocamentoSaida_out(Datas.getHour(aValue.toString(), Datas.VERIFICAR_HORA));
                 break;
             case 9:
                 jornada.setDiarias(aValue.toString());
@@ -97,4 +100,8 @@ public final class TableModel_Jornada extends TableModelDefaultAdapter<Jornada> 
 
     }
 
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
+    }
 }

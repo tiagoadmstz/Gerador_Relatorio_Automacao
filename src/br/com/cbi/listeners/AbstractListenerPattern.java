@@ -78,9 +78,14 @@ public abstract class AbstractListenerPattern<T> implements ActionListener, Focu
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        ((JFrame) form).setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        switch (e.getActionCommand()) {
+    public void actionPerformed(ActionEvent aEvent) {
+        ((ManipulaFrames) form).setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        acaoPadrao(aEvent);
+        ((ManipulaFrames) form).setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    protected void acaoPadrao(ActionEvent aEvent) {
+        switch (aEvent.getActionCommand()) {
             case "novo":
                 novo();
                 break;
@@ -109,7 +114,6 @@ public abstract class AbstractListenerPattern<T> implements ActionListener, Focu
                 ((ManipulaFrames) form).fechar();
                 break;
         }
-        ((JFrame) form).setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     protected void novo() {
@@ -132,6 +136,7 @@ public abstract class AbstractListenerPattern<T> implements ActionListener, Focu
                 boolean result = emh.getOperation(EntityManagerHelper.OPERATION_TYPE.SAVE, object, EntityManagerHelper.PERSISTENCE_UNIT.DERBYDB_PU);
                 ((ManipulaFrames) form).getListPaineis().get().forEach(pl -> ((ManipulaFrames) form).enableDisableComponentJFrame(ManipulaFrames.SALVAR, pl.getComponents()));
                 ((ManipulaFrames) form).operacaoEnableOrder(ManipulaFrames.SALVAR, ((ManipulaFrames) form).getListMenus().get());
+                ((ManipulaFrames) form).setObject(object);
                 MessageFactory.getPersistenceMessage(MessageFactory.SALVAR, result, ((ManipulaFrames) form));
             } else {
                 MessageFactory.getAppMessage(MessageFactory.PREENCHIMENTO_OBRIGATORIO, ((ManipulaFrames) form));
@@ -179,11 +184,11 @@ public abstract class AbstractListenerPattern<T> implements ActionListener, Focu
     }
 
     public abstract void copiarObject(Object object);
-    
-    public void setMenuEditarOpcoes(){
+
+    public void setMenuEditarOpcoes() {
         ((ManipulaFrames) form).setMenuEditarOpcoes();
     }
-    
+
     protected void carregarListas() {
     }
 
@@ -406,6 +411,7 @@ public abstract class AbstractListenerPattern<T> implements ActionListener, Focu
     }
 
     public void setColumnSize(JTable table, int... tamanho) {
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setPreferredWidth(tamanho[i]);
         }

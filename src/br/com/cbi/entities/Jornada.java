@@ -5,10 +5,10 @@
  */
 package br.com.cbi.entities;
 
-import br.com.cbi.converters.LocalDateTimeConverter;
+import br.com.cbi.converters.LocalDateConverter;
 import br.com.cbi.util.ManipulaBean;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -47,7 +47,7 @@ public class Jornada extends ManipulaBean<Jornada> implements Serializable {
     private static final long serialVersionUID = -3697876686009244273L;
 
     private Long id;
-    private LocalDateTime dataJornada;
+    private LocalDate dataJornada;
     private String deslocamento_in;
     private String deslocamento_out;
     private String trabalho_in;
@@ -73,13 +73,13 @@ public class Jornada extends ManipulaBean<Jornada> implements Serializable {
         this.id = id;
     }
 
-    @Convert(converter = LocalDateTimeConverter.class)
+    @Convert(converter = LocalDateConverter.class)
     @Column(name = "DATA_JORNADA", nullable = true)
-    public LocalDateTime getDataJornada() {
+    public LocalDate getDataJornada() {
         return dataJornada;
     }
 
-    public void setDataJornada(LocalDateTime dataJornada) {
+    public void setDataJornada(LocalDate dataJornada) {
         this.dataJornada = dataJornada;
     }
 

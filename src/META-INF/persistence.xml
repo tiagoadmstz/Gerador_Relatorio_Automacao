@@ -7,7 +7,7 @@
     <class>br.com.cbi.entities.Peca</class>
     <class>br.com.cbi.entities.Tecnico</class>
     <class>br.com.cbi.converters.BigDecimalConverter</class>
-    <class>br.com.cbi.converters.LocalDateTimeConverter</class>
+    <class>br.com.cbi.converters.LocalDateConverter</class>
     <class>br.com.cbi.entities.Cidade</class>
     <class>br.com.cbi.entities.Filtro</class>
     <class>br.com.cbi.entities.Report_Group</class>

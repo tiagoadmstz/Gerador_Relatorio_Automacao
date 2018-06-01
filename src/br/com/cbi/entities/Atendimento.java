@@ -5,10 +5,10 @@
  */
 package br.com.cbi.entities;
 
-import br.com.cbi.converters.LocalDateTimeConverter;
+import br.com.cbi.converters.LocalDateConverter;
 import br.com.cbi.util.ManipulaBean;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Access;
@@ -67,7 +67,7 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
     private String defeitoReclamado;
     private String localAtendimento;
     private String tipoAtendimento;
-    private LocalDateTime dataAtendimento;
+    private LocalDate dataAtendimento;
     private String nomeCliente;
     private String nomeTecnico;
     private String condicoesFuncionamento;
@@ -258,13 +258,13 @@ public class Atendimento extends ManipulaBean<Atendimento> implements Serializab
         this.tipoAtendimento = tipoAtendimento;
     }
 
-    @Convert(converter = LocalDateTimeConverter.class)
+    @Convert(converter = LocalDateConverter.class)
     @Column(name = "DATA_ATENDIMENTO", nullable = true)
-    public LocalDateTime getDataAtendimento() {
+    public LocalDate getDataAtendimento() {
         return dataAtendimento;
     }
 
-    public void setDataAtendimento(LocalDateTime dataAtendimento) {
+    public void setDataAtendimento(LocalDate dataAtendimento) {
         this.dataAtendimento = dataAtendimento;
     }
 

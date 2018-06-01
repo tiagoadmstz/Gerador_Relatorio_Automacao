@@ -8,19 +8,20 @@ package br.com.cbi.listeners;
 import br.com.cbi.beans.PesquisaDefaultForm;
 import br.com.cbi.dal.EntityManagerHelper;
 import br.com.cbi.entities.Atendimento;
+import br.com.cbi.entities.Jornada;
+import br.com.cbi.entities.Peca;
 import br.com.cbi.frames.Form_Atendimento;
 import br.com.cbi.msg.MessageFactory;
 import br.com.cbi.tablemodel.TableModel_Jornada;
 import br.com.cbi.tablemodel.TableModel_Pecas;
 import br.com.cbi.tablemodel.TableModel_Pesquisa_Atendimento;
 import br.com.cbi.util.JasperUtil;
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.JMenuItem;
+import javax.swing.AbstractButton;
 
 /**
  *
@@ -49,14 +50,28 @@ public final class Listener_Atendimento extends ListenerPatternAdapter<Form_Aten
 
     @Override
     protected void attachListener() {
-        form.getListMenus().ifPresent(lista -> lista.forEach(comp -> ((JMenuItem) comp).addActionListener(this)));
+        form.getListMenus().ifPresent(lista -> lista.forEach(comp -> ((AbstractButton) comp).addActionListener(this)));
+        form.getListButtons().ifPresent(lista -> lista.forEach(bt -> bt.addActionListener(this)));
         fecharESC(form.getMenuBarCbiDefault().getItemFechar());
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
         super.actionPerformed(event);
-        form.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        switch (event.getActionCommand()) {
+            case "addPeca":
+                modelPecas.addObject(new Peca());
+                break;
+            case "removePeca":
+                removePeca();
+                break;
+            case "addJornada":
+                modelJornada.addObject(new Jornada());
+                break;
+            case "removeJornada":
+                removeJornada();
+                break;
+        }
     }
 
     @Override
@@ -64,12 +79,14 @@ public final class Listener_Atendimento extends ListenerPatternAdapter<Form_Aten
         modelPecas = new TableModel_Pecas();
         modelJornada = new TableModel_Jornada();
         form.getTbPecas().setModel(modelPecas);
+        setColumnSize(form.getTbPecas(), 80, 400, 80);
         form.getTbJornada().setModel(modelJornada);
+        setColumnSize(form.getTbJornada(), 100, 150, 150, 150, 150, 150, 150, 150, 150, 150);
     }
 
     @Override
     protected void carregarListas() {
-        
+
     }
 
     @Override
@@ -77,7 +94,6 @@ public final class Listener_Atendimento extends ListenerPatternAdapter<Form_Aten
         salvar(atendimento, emh);
     }
 
-    
     @Override
     protected void alterar() {
         alterar(atendimento, emh);
@@ -98,23 +114,33 @@ public final class Listener_Atendimento extends ListenerPatternAdapter<Form_Aten
     protected void pesquisa() {
         TableModel_Pesquisa_Atendimento model = new TableModel_Pesquisa_Atendimento();
         model.addLista((List<Atendimento>) emh.getObjectListNamedQuery(Atendimento.class, "atendimento.findAll", null, null, EntityManagerHelper.PERSISTENCE_UNIT.DERBYDB_PU));
-        PesquisaDefaultForm pesquisa = pesquisar("Pesquisa de Meios de Locomoção", model, null, this);
+        PesquisaDefaultForm pesquisa = pesquisar("Pesquisa de Atendimentos", model, null, this, 80, 100, 100, 250, 250, 250);
         pesquisa.setVisible(true);
     }
-    
+
     @Override
     public void imprimir() {
-        Map<String, Object> filters = null;
         int result = MessageFactory.getPrintMessage(MessageFactory.IMPRIMIR, form);
-        filters = result == 0 && atendimento.getId() != null ? 
-                JasperUtil.getReportFilter("ID", atendimento.getId().toString(), JasperUtil.NUMBER) :
-                new HashMap();
-        
+        Map<String, Object> filters = result == 0 && atendimento.getId() != null
+                ? JasperUtil.getReportFilter("ID", atendimento.getId().toString(), JasperUtil.NUMBER)
+                : new HashMap();
+
         if (result != 2) {
-            InputStream report = getClass().getResourceAsStream("/br/com/sres/reports/rel_MEIO_LOCOMOCAO.jasper");
+            InputStream report = getClass().getResourceAsStream("/br/com/cbi/reports/rel_ATENDIMENTO_CAMPO.jasper");
             JasperUtil.imprimirRelatorio(emh.getConnection(EntityManagerHelper.PERSISTENCE_UNIT.DERBYDB_PU),
-                    "Relatório de Meios de Locomoção", form.getIconImage(), filters, report);
+                    "Relatório de Atendimento", form.getIconImage(), filters, report);
         }
     }
-    
+
+    protected void removePeca() {
+        if (form.getTbPecas().getSelectedRow() != -1) {
+            modelPecas.removeObject(form.getTbPecas().getSelectedRow());
+        }
+    }
+
+    protected void removeJornada() {
+        if (form.getTbJornada().getSelectedRow() != -1) {
+            modelJornada.removeObject(form.getTbJornada().getSelectedRow());
+        }
+    }
 }

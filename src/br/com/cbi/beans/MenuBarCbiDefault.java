@@ -7,6 +7,7 @@ package br.com.cbi.beans;
 
 import java.awt.Cursor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
@@ -99,10 +100,14 @@ public class MenuBarCbiDefault extends JMenuBar {
      * Este método adiciona itens diferentes a lista de menus vinculandos as
      * ações as que possuem os mesmo nomes e actionCommands.
      *
-     * @param comp Componente que será adicionado;
+     * @param component Componente que será adicionado;
      */
-    public void addItem(JComponent comp) {
-        itens.add(comp);
+    public void addItem(JComponent component) {
+        itens.add(component);
+    }
+
+    public void addItens(JComponent... component) {
+        itens.addAll(Arrays.asList(component));
     }
 
     public JMenu getMenuArquivo() {

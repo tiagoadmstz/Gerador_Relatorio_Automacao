@@ -6,7 +6,7 @@
 package br.com.cbi.tablemodel;
 
 import br.com.cbi.entities.Atendimento;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -59,7 +59,7 @@ public final class TableModel_Relatorios extends TableModelDefaultAdapter<Atendi
                 atendimento.setNumeroRelatorio(aValue.toString());
                 break;
             case 2:
-                atendimento.setDataAtendimento(aValue != null ? LocalDateTime.parse(aValue.toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null);
+                atendimento.setDataAtendimento(aValue != null ? LocalDate.parse(aValue.toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null);
                 break;
             case 3:
                 atendimento.setClienteFinal(aValue.toString());

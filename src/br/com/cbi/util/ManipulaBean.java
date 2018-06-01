@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 /**
  *
  * @author tiago.teixeira
+ * @param <T>
  */
 public abstract class ManipulaBean<T> implements Serializable {
 

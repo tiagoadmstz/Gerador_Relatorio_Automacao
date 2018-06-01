@@ -52,10 +52,17 @@ public final class TableModel_Pecas extends TableModelDefaultAdapter<Peca> {
                 peca.setDescricao(aValue.toString());
                 break;
             case 2:
-                peca.setQuantidade(aValue != null ? new BigDecimal(aValue.toString()) : null);
+                peca.setQuantidade(aValue != null
+                        ? new BigDecimal(aValue.toString().contains(",") ? aValue.toString().replaceAll(",", ".") : aValue.toString())
+                        : null);
                 break;
         }
 
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
     }
 
 }

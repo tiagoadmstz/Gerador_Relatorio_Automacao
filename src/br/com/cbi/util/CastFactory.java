@@ -7,6 +7,7 @@ package br.com.cbi.util;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -43,6 +44,8 @@ public class CastFactory {
                 object = object != null ? LocalDate.parse(object.toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null;
             } else if (Objects.equals(LocalTime.class, classe)) {
                 object = object != null ? LocalTime.parse(object.toString(), DateTimeFormatter.ofPattern("HH:mm")) : null;
+            }else if(Objects.equals(LocalDateTime.class, classe)){
+                object = object != null ? LocalDateTime.of(LocalDate.parse(object.toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.now()) : null;
             } else if (Objects.equals(ZonedDateTime.class, classe)) {
                 object = object != null ? ZonedDateTime.of(LocalDate.parse(object.toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.now(), ZoneId.systemDefault()) : null;
             } else if (Objects.equals(BigDecimal.class, classe)) {

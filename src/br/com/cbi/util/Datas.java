@@ -25,6 +25,9 @@ import javax.swing.JOptionPane;
  */
 public class Datas {
 
+    public static final int DATA_ATUAL = 0, VERIFICAR_DATA = 1;
+    public static final int HORA_ATUAL = 0, VERIFICAR_HORA = 1;
+    
     public static String calcularIdade(String dataNascimento) {
 
         Date dataAtual = new Date();
@@ -59,8 +62,7 @@ public class Datas {
      *
      * @param hora valor do campo de hora
      * @return String Hora Formatada
-     * @param solicitacao int <br><b>0</b> para hora atual<br><b>1</b> para
-     * manipulação de hora
+     * @param solicitacao int <br><b>HORA_ATUAL</b><br><b>VERIFICAR_HORA</b>
      */
     public static String getHour(String hora, int solicitacao) {
         Date date = new Date();
@@ -142,8 +144,7 @@ public class Datas {
      * Devolve: 01/01/2015<br>
      *
      * @return String data
-     * @param solicitacao int <br><b>0</b> para data atual<br><b>1</b> para
-     * manipulação de data
+     * @param solicitacao int <br><b>DATA_ATUAL</b> <br><b>VERIFICAR_DATA</b>
      */
     public static String getDateString(String data, int solicitacao) {
 
@@ -152,7 +153,7 @@ public class Datas {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date x = new Date();
 
-        if (data != null || !"".equals(data) && solicitacao == 1) {
+        if (data != null || !"".equals(data) && solicitacao == VERIFICAR_DATA) {
             try {
 
                 if (data.contains("/")) {
@@ -174,7 +175,7 @@ public class Datas {
             } catch (Exception excep) {
                 temp = formato.format(x);
             }
-        } else if (solicitacao == 0) {
+        } else if (solicitacao == DATA_ATUAL) {
             temp = formato.format(x);
         }
 

@@ -8,13 +8,14 @@ package br.com.cbi.frames;
 import br.com.cbi.annotations.MapFrameField;
 import br.com.cbi.beans.MenuBarCbiDefault;
 import br.com.cbi.dal.AlgoritimosDB;
-import br.com.cbi.entities.Atendimento;
 import br.com.cbi.listeners.Listener_Atendimento;
 import br.com.cbi.util.ManipulaFrames;
 import br.com.cbi.util.Utilidades;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -30,7 +31,6 @@ public final class Form_Atendimento extends ManipulaFrames {
 
     private static final long serialVersionUID = -7054545364563752986L;
     private final Listener_Atendimento listener;
-    private Atendimento atendimento = new Atendimento();
 
     /**
      * Creates new form MainForm
@@ -49,17 +49,22 @@ public final class Form_Atendimento extends ManipulaFrames {
     }
 
     @Override
-    public Optional<List<JPanel>> getListPaineis(){
+    public Optional<List<JPanel>> getListPaineis() {
         return Optional.ofNullable(Arrays.asList(painel_Atendimento, painel_Defeito, painel_Pecas, painel_Jornada));
     }
 
     @Override
     public Optional<List<JComponent>> getListMenus() {
+        menuBarCbiDefault.addItens(btNovo, btAlterar, btCancelar, btFechar, btImprimir);
         return Optional.ofNullable(menuBarCbiDefault.getListMenuItens());
     }
-    
+
     public MenuBarCbiDefault getMenuBarCbiDefault() {
         return menuBarCbiDefault;
+    }
+
+    public Optional<List<JButton>> getListButtons() {
+        return Optional.ofNullable(Arrays.asList(btAdicionarPeca, btRemoverPeca, btAdicionarJornada, btRemoverJornada));
     }
 
     @MapFrameField(referencedField = "clienteFinal", typeParameter = String.class)
@@ -107,7 +112,7 @@ public final class Form_Atendimento extends ManipulaFrames {
         return txtCidade;
     }
 
-    //@MapFrameField(referencedField = "dataAtendimento", typeParameter = LocalDateTime.class)
+    @MapFrameField(referencedField = "dataAtendimento", typeParameter = LocalDate.class)
     public JTextField getTxtData() {
         return txtData;
     }
@@ -132,7 +137,7 @@ public final class Form_Atendimento extends ManipulaFrames {
         return txtEstado;
     }
 
-    //@MapFrameField(referencedField = "id", typeParameter = Long.class)
+    @MapFrameField(referencedField = "id", typeParameter = Long.class)
     public JTextField getTxtId() {
         return txtId;
     }
@@ -258,18 +263,19 @@ public final class Form_Atendimento extends ManipulaFrames {
         defeitoScrollPane = new javax.swing.JScrollPane();
         taDefeitoReclamado = new javax.swing.JTextArea();
         painel_Pecas = new javax.swing.JPanel();
-        btPlus = new javax.swing.JButton();
-        btNegativeButton = new javax.swing.JButton();
-        pecasScrollPane = new javax.swing.JScrollPane();
+        btAdicionarPeca = new javax.swing.JButton();
+        btRemoverPeca = new javax.swing.JButton();
+        scPecas = new javax.swing.JScrollPane();
         tbPecas = new javax.swing.JTable();
         painel_Jornada = new javax.swing.JPanel();
-        btPlus2 = new javax.swing.JButton();
-        btNegative2 = new javax.swing.JButton();
-        jornadaScrollPane = new javax.swing.JScrollPane();
+        btAdicionarJornada = new javax.swing.JButton();
+        btRemoverJornada = new javax.swing.JButton();
+        scJornada = new javax.swing.JScrollPane();
         tbJornada = new javax.swing.JTable();
         menuBarCbiDefault = new br.com.cbi.beans.MenuBarCbiDefault();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Atendimentos");
 
         painel_Guias.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         painel_Guias.setToolTipText("");
@@ -452,18 +458,19 @@ public final class Form_Atendimento extends ManipulaFrames {
                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCliente)
                             .addGroup(painel_AtendimentoLayout.createSequentialGroup()
-                                .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtEndereco)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, painel_AtendimentoLayout.createSequentialGroup()
+                                        .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(painel_AtendimentoLayout.createSequentialGroup()
+                                                .addComponent(txtBairro, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                            .addGroup(painel_AtendimentoLayout.createSequentialGroup()
+                                                .addComponent(txtEmail)
+                                                .addGap(4, 4, 4)))
                                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(painel_AtendimentoLayout.createSequentialGroup()
-                                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(lbTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(painel_AtendimentoLayout.createSequentialGroup()
-                                                .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(lbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(lbCidade, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                                            .addComponent(lbTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtTelefone)
@@ -476,23 +483,23 @@ public final class Form_Atendimento extends ManipulaFrames {
                                             .addComponent(lbN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                                            .addComponent(txtEstado)))
+                                            .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                                         .addComponent(lbCelular)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtCelular))))
+                                        .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(painel_AtendimentoLayout.createSequentialGroup()
-                                .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtPW, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtProduto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtProduto)
+                                    .addComponent(txtPW))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(lbEquipamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lbNSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lbNSerie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtEquipamento)
+                                .addGroup(painel_AtendimentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtEquipamento, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                                     .addComponent(txtSerie)))
                             .addGroup(painel_AtendimentoLayout.createSequentialGroup()
                                 .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -634,11 +641,13 @@ public final class Form_Atendimento extends ManipulaFrames {
 
         painel_Guias.addTab("Defeito Reclamado", painel_Defeito);
 
-        btPlus.setText("+");
-        btPlus.setActionCommand("plus");
+        btAdicionarPeca.setText("+");
+        btAdicionarPeca.setActionCommand("addPeca");
+        btAdicionarPeca.setEnabled(false);
 
-        btNegativeButton.setText("-");
-        btNegativeButton.setActionCommand("negative");
+        btRemoverPeca.setText("-");
+        btRemoverPeca.setActionCommand("removePeca");
+        btRemoverPeca.setEnabled(false);
 
         tbPecas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -652,7 +661,7 @@ public final class Form_Atendimento extends ManipulaFrames {
             }
         ));
         tbPecas.setEnabled(false);
-        pecasScrollPane.setViewportView(tbPecas);
+        scPecas.setViewportView(tbPecas);
 
         javax.swing.GroupLayout painel_PecasLayout = new javax.swing.GroupLayout(painel_Pecas);
         painel_Pecas.setLayout(painel_PecasLayout);
@@ -661,11 +670,11 @@ public final class Form_Atendimento extends ManipulaFrames {
             .addGroup(painel_PecasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_PecasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pecasScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
+                    .addComponent(scPecas, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
                     .addGroup(painel_PecasLayout.createSequentialGroup()
-                        .addComponent(btPlus)
+                        .addComponent(btAdicionarPeca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btNegativeButton)
+                        .addComponent(btRemoverPeca)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -674,20 +683,22 @@ public final class Form_Atendimento extends ManipulaFrames {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_PecasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_PecasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btPlus)
-                    .addComponent(btNegativeButton))
+                    .addComponent(btAdicionarPeca)
+                    .addComponent(btRemoverPeca))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pecasScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                .addComponent(scPecas, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         painel_Guias.addTab("Peças Utilizadas", painel_Pecas);
 
-        btPlus2.setText("+");
-        btPlus2.setActionCommand("plus2");
+        btAdicionarJornada.setText("+");
+        btAdicionarJornada.setActionCommand("addJornada");
+        btAdicionarJornada.setEnabled(false);
 
-        btNegative2.setText("-");
-        btNegative2.setActionCommand("negative2");
+        btRemoverJornada.setText("-");
+        btRemoverJornada.setActionCommand("removeJornada");
+        btRemoverJornada.setEnabled(false);
 
         tbJornada.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -701,7 +712,7 @@ public final class Form_Atendimento extends ManipulaFrames {
             }
         ));
         tbJornada.setEnabled(false);
-        jornadaScrollPane.setViewportView(tbJornada);
+        scJornada.setViewportView(tbJornada);
 
         javax.swing.GroupLayout painel_JornadaLayout = new javax.swing.GroupLayout(painel_Jornada);
         painel_Jornada.setLayout(painel_JornadaLayout);
@@ -710,11 +721,11 @@ public final class Form_Atendimento extends ManipulaFrames {
             .addGroup(painel_JornadaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_JornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jornadaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
+                    .addComponent(scJornada, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
                     .addGroup(painel_JornadaLayout.createSequentialGroup()
-                        .addComponent(btPlus2)
+                        .addComponent(btAdicionarJornada)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btNegative2)
+                        .addComponent(btRemoverJornada)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -723,10 +734,10 @@ public final class Form_Atendimento extends ManipulaFrames {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_JornadaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_JornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btPlus2)
-                    .addComponent(btNegative2))
+                    .addComponent(btAdicionarJornada)
+                    .addComponent(btRemoverJornada))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jornadaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                .addComponent(scJornada, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -739,15 +750,15 @@ public final class Form_Atendimento extends ManipulaFrames {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(painel_Guias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(painel_Guias)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(painel_Guias, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(painel_Guias, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -815,15 +826,15 @@ public final class Form_Atendimento extends ManipulaFrames {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAdicionarJornada;
+    private javax.swing.JButton btAdicionarPeca;
     private javax.swing.JButton btAlterar;
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btFechar;
     private javax.swing.JButton btImprimir;
-    private javax.swing.JButton btNegative2;
-    private javax.swing.JButton btNegativeButton;
     private javax.swing.JButton btNovo;
-    private javax.swing.JButton btPlus;
-    private javax.swing.JButton btPlus2;
+    private javax.swing.JButton btRemoverJornada;
+    private javax.swing.JButton btRemoverPeca;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JComboBox<String> cbAutorizada;
     private javax.swing.JComboBox<String> cbCondicaoFuncionamento;
@@ -831,7 +842,6 @@ public final class Form_Atendimento extends ManipulaFrames {
     private javax.swing.JComboBox<String> cbTipoAtendimento;
     private javax.swing.JScrollPane defeitoScrollPane;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JScrollPane jornadaScrollPane;
     private javax.swing.JLabel lbBairro;
     private javax.swing.JLabel lbCelular;
     private javax.swing.JLabel lbCidade;
@@ -861,7 +871,8 @@ public final class Form_Atendimento extends ManipulaFrames {
     private javax.swing.JTabbedPane painel_Guias;
     private javax.swing.JPanel painel_Jornada;
     private javax.swing.JPanel painel_Pecas;
-    private javax.swing.JScrollPane pecasScrollPane;
+    private javax.swing.JScrollPane scJornada;
+    private javax.swing.JScrollPane scPecas;
     private javax.swing.JTextArea taDefeitoReclamado;
     private javax.swing.JTable tbJornada;
     private javax.swing.JTable tbPecas;

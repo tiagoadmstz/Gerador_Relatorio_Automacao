@@ -12,12 +12,17 @@ import br.com.cbi.tablemodel.TableModelDefaultAdapter;
 import java.awt.Component;
 import java.awt.Image;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.persistence.Column;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -62,15 +67,15 @@ public abstract class ManipulaFrames extends JFrame {
         operacaoEnableOrder(ManipulaFrames.CANCELAR, getListMenus().get());
     }
 
-    public void editar(){
+    public void editar() {
         getListPaineis().get().forEach(pl -> enableDisableComponentJFrame(ManipulaFrames.EDITAR, pl.getComponents()));
         operacaoEnableOrder(ManipulaFrames.EDITAR, getListMenus().get());
     }
-    
-    public void setMenuEditarOpcoes(){
+
+    public void setMenuEditarOpcoes() {
         operacaoEnableOrder(ManipulaFrames.SALVAR, getListMenus().get());
     }
-    
+
     public boolean validaCampos(ManipulaBean object) {
         try {
             for (Method mo : object.getClass().getDeclaredMethods()) {
@@ -240,7 +245,7 @@ public abstract class ManipulaFrames extends JFrame {
     protected void setImageIcon() {
         setIconImage(image);
     }
-    
+
     public void fechar() {
         if (MessageFactory.getQuestionMessage(MessageFactory.FECHAR, this)) {
             this.dispose();
@@ -252,7 +257,7 @@ public abstract class ManipulaFrames extends JFrame {
             System.exit(0);
         }
     }
-    
+
     public void getObject(ManipulaBean object) {
         setDados(object);
     }
@@ -268,9 +273,16 @@ public abstract class ManipulaFrames extends JFrame {
                     MapFrameField map = mf.getAnnotation(MapFrameField.class);
                     Method mo = object.getClass().getDeclaredMethod("set".concat(map.referencedField().replaceFirst("\\w", map.referencedField().substring(0, 1).toUpperCase())), map.typeParameter());
 
-                    if (mf.getReturnType() == JTextField.class || mf.getReturnType() == JTextFieldCBI.class) {
-                        mo.invoke(object, CastFactory.cast(mf.invoke(this).getClass().getMethod("getText").invoke(mf.invoke(this)), map.annotationType()));
+                    if (mf.getReturnType() == JTextField.class || mf.getReturnType() == JTextFieldCBI.class || mf.getReturnType() == JTextArea.class) {
+                        if (!mf.invoke(this).getClass().getMethod("getText").invoke(mf.invoke(this)).equals("")) {
+                            mo.invoke(object, CastFactory.cast(mf.invoke(this).getClass().getMethod("getText").invoke(mf.invoke(this)), map.typeParameter()));
+                        }
+                    } else if (mf.getReturnType() == JComboBox.class) {
+                        if (!mf.invoke(this).getClass().getMethod("getSelectedIndex").invoke(mf.invoke(this)).equals(-1)) {
+                            mo.invoke(object, CastFactory.cast(mf.invoke(this).getClass().getMethod("getSelectedItem").invoke(mf.invoke(this)), map.typeParameter()));
+                        }
                     }
+
                 }
             }
         } catch (Exception e) {
@@ -285,13 +297,86 @@ public abstract class ManipulaFrames extends JFrame {
                     MapFrameField map = mf.getAnnotation(MapFrameField.class);
                     Method mo = object.getClass().getDeclaredMethod("get".concat(map.referencedField().replaceFirst("\\w", map.referencedField().substring(0, 1).toUpperCase())));
 
-                    if (mf.getReturnType() == JTextField.class || mf.getReturnType() == JTextFieldCBI.class) {
-                        mf.invoke(this).getClass().getMethod("setText", String.class).invoke(mf.invoke(this), mo.invoke(object));
+                    if (mo.invoke(object) != null) {
+                        if (mf.getReturnType() == JTextField.class || mf.getReturnType() == JTextFieldCBI.class || mf.getReturnType() == JTextArea.class) {
+                            if(mo.getReturnType() == LocalDate.class){
+                                mf.invoke(this).getClass().getMethod("setText", String.class).invoke(mf.invoke(this), ((LocalDate) CastFactory.cast(mo.invoke(object), map.typeParameter())).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                            } else {
+                                mf.invoke(this).getClass().getMethod("setText", String.class).invoke(mf.invoke(this), CastFactory.cast(mo.invoke(object), map.typeParameter()).toString());
+                            }
+                        } else if (mf.getReturnType() == JComboBox.class) {
+
+                        }
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setValuesFieldsForm(JFrame form, Object obj, Method method, Method setMethod, MapFrameField map) throws Exception {
+        //verifica o tipo de retorno do getter
+        if (method.getReturnType() == JTextFieldCBI.class | method.getReturnType() == JTextField.class | method.getReturnType() == JTextArea.class) {
+            //pega o método set referenciado na variável sm e invoca o método getText do TextField
+            setMethod.invoke(obj, CastFactory.cast((method.invoke(form).getClass().getMethod("getText")).invoke(method.invoke(form)), map.typeParameter()));
+        } else if (method.getReturnType() == JPasswordField.class) {
+            setMethod.invoke(obj, CastFactory.cast(String.valueOf(method.invoke(form).getClass().getMethod("getPassword").invoke(method.invoke(form))), map.typeParameter()));
+        } else if (method.getReturnType() == JComboBox.class) {
+            String metodo = null;
+            if (map.typeParameter() == String.class) {
+                metodo = "getSelectedItem";
+            } else if (map.typeParameter() == Integer.class) {
+                metodo = "getSelectedIndex";
+            }
+            setMethod.invoke(obj, (method.invoke(form).getClass().getMethod(metodo)).invoke(method.invoke(form)));
+        } else if (method.getReturnType() == JCheckBox.class) {
+            setMethod.invoke(obj, (method.invoke(form).getClass().getMethod("isSelected")).invoke(method.invoke(form)));
+        } else if (method.getReturnType() == ButtonGroup.class) {
+            Enumeration<AbstractButton> e = (Enumeration<AbstractButton>) (method.invoke(form).getClass().getMethod("getElements").invoke(method.invoke(form)));
+            while (e.hasMoreElements()) {
+                AbstractButton ab = e.nextElement();
+                if (ab.isSelected()) {
+                    setMethod.invoke(obj, ab.getText());
+                    break;
+                }
+            }
+        } else if (method.getReturnType() == JTable.class) {
+            TableModelDefaultAdapter model = (TableModelDefaultAdapter) method.invoke(form).getClass().getMethod("getModel").invoke(method.invoke(form));
+            setMethod.invoke(obj, model.clonar());
+        }
+    }
+
+    private void getValuesFieldsForm(JFrame form, Object obj, Method method, Method getMethod, MapFrameField map) {
+        try {
+            if (method.getReturnType() == JTextFieldCBI.class | method.getReturnType() == JTextField.class | method.getReturnType() == JTextArea.class) {
+                method.invoke(form).getClass().getMethod("setText", String.class).invoke(method.invoke(form), CastFactory.cast(getMethod.invoke(obj), String.class));
+            } else if (method.getReturnType() == JPasswordField.class) {
+                method.invoke(form).getClass().getMethod("setText", String.class).invoke(method.invoke(form), CastFactory.cast(getMethod.invoke(obj), String.class));
+            } else if (method.getReturnType() == JComboBox.class) {
+                if (map.typeParameter() == String.class) {
+                    method.invoke(form).getClass().getMethod("setSelectedItem", Object.class).invoke(method.invoke(form), CastFactory.cast(getMethod.invoke(obj), Object.class));
+                } else if (map.typeParameter() == Integer.class) {
+                    method.invoke(form).getClass().getMethod("setSelectedIndex", int.class).invoke(method.invoke(form), getMethod.invoke(obj));
+                }
+            } else if (method.getReturnType() == JCheckBox.class) {
+                method.invoke(form).getClass().getMethod("setSelected", map.typeParameter()).invoke(method.invoke(form), getMethod.invoke(obj));
+            } else if (method.getReturnType() == ButtonGroup.class) {
+                Enumeration<AbstractButton> e = (Enumeration<AbstractButton>) (method.invoke(form).getClass().getMethod("getElements").invoke(method.invoke(form)));
+                while (e.hasMoreElements()) {
+                    AbstractButton ab = e.nextElement();
+                    if (Objects.equals(getMethod.invoke(obj), ab.getText())) {
+                        ab.setSelected(true);
+                    } else {
+                        ab.setSelected(false);
+                    }
+                }
+            } else if (method.getReturnType() == JTable.class) {
+                TableModelDefaultAdapter model = (TableModelDefaultAdapter) method.invoke(form).getClass().getMethod("getModel").invoke(method.invoke(form));
+                model.deletarLista();
+                model.addLista((List<?>) getMethod.invoke(obj));
+            }
+        } catch (Exception e) {
         }
     }
 }
